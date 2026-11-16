@@ -1,0 +1,28 @@
+cluster: 4.4.0
+payer:   BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7  balance: 9.80347372 SOL
+============================================================================
+Recover the intermediate account's ephemeral keypair file with
+`solana-keygen recover` and the following 12-word seed phrase:
+============================================================================
+castle genius better poem bike cram spike fiction satisfy twelve beef bridge
+============================================================================
+To resume a deploy, pass the recovered keypair as the
+[BUFFER_SIGNER] to `solana program deploy` or `solana program write-buffer'.
+Or to recover the account's lamports, use:
+============================================================================
+solana program close CKRPFqAqh23wDWh77Ti56hNJsUq6wsX8R9rp3gyEFKyT
+============================================================================
+{
+  "programId": "5YCcYWzvnsSJtP2NVgFrdiSkHaxjGd7DvTVrGf4LFN1R",
+  "signature": "41V6FTHb3t8tthqQ7vKpjtyCYLHBcNJ1QQ8fnG6twxshAjNpcUp4BBEugxtznNSpmfss9eDdp4auRWLi91W7yTPi"
+}
+
+Program Id: 5YCcYWzvnsSJtP2NVgFrdiSkHaxjGd7DvTVrGf4LFN1R
+Owner: BPFLoaderUpgradeab1e11111111111111111111111
+ProgramData Address: 6Hb8HitJhQjM6zyhfMLQxJTbMBGMkfD6xHK5kDTvx1My
+Authority: BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7
+Last Deployed In Slot: 520983029
+Data Length: 70256 (0x11270) bytes
+Balance: 0.35777932 SOL
+
+payer balance after: 9.44449128 SOL

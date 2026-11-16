@@ -1,0 +1,107 @@
+{
+ "swap": {
+  "id": "adb80528d7cc",
+  "direction": "ckb2sol",
+  "amount": "500",
+  "recipient": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "walk_away": false,
+  "state": "done",
+  "created": 1794416113006,
+  "steps": [
+   {
+    "key": "quote",
+    "title": "Quote from the LP",
+    "status": "done",
+    "detail": "500 CKB → 0.005601632 SOL (mid-market 0.005624128, LP spread 0.4%)",
+    "links": [],
+    "at": 2
+   },
+   {
+    "key": "secret",
+    "title": "Secret generated in your wallet",
+    "status": "done",
+    "detail": "H = sha256(secret) = 9609a782c78ca32d79e87fbf8df7362d5ab39e11bd7e237299e21f214c0d0fd9. Only H is shared; the secret stays here.",
+    "links": [],
+    "at": 2
+   },
+   {
+    "key": "fiber_lock",
+    "title": "CKB locked on Fiber (hold invoice)",
+    "status": "done",
+    "detail": "500 CKB is in flight to the LP's node, locked to H. The LP can't take it without the secret.",
+    "links": [],
+    "at": 24
+   },
+   {
+    "key": "sol_lock",
+    "title": "LP locks SOL in the Solana escrow",
+    "status": "done",
+    "detail": "0.005601632 SOL locked to H for Bfdybiba…, 178s to claim.",
+    "links": [
+     {
+      "label": "Solana tx 3HrniRuj…",
+      "url": "https://explorer.solana.com/tx/3HrniRujUZDdxc3JytURBFTPGkuJPL1WNTYofRtQisWThsnrUSBmG5jtwf3pkEjSd4aZAiQhEfZfABztxWB3VSTe?cluster=devnet"
+     },
+     {
+      "label": "escrow account",
+      "url": "https://explorer.solana.com/address/9H8nCXidUtD9HnJRfgXYqvCinucUvBufEf6A1CeYdfUy?cluster=devnet"
+     }
+    ],
+    "at": 2088
+   },
+   {
+    "key": "sol_claim",
+    "title": "You claim the SOL, revealing the secret",
+    "status": "done",
+    "detail": "Claimed. The secret is now public in this transaction: bfd23239677573470fc0ea45352367bd93f45dac92a69c9ed3d1720c80134b0f",
+    "links": [
+     {
+      "label": "Solana tx 3s3NY6Mc…",
+      "url": "https://explorer.solana.com/tx/3s3NY6Mc6LgT1e1qTYgJSSQhUnYZ57Bf6BTh4JE3HeqYE7YFJhD1ZpNL8JcdhsXv1P4YjhAgTtxox4sAr4kC1H5M?cluster=devnet"
+     }
+    ],
+    "at": 2880
+   },
+   {
+    "key": "fiber_settle",
+    "title": "LP settles the Fiber payment with the secret",
+    "status": "done",
+    "detail": "Fiber payment settled. The LP now owns the 500 CKB.",
+    "links": [],
+    "at": 4409
+   }
+  ],
+  "quote": {
+   "quote_id": "08b69a381354c68e",
+   "direction": "ckb2sol",
+   "shannons": "50000000000",
+   "lamports": 5601632,
+   "mid_lamports": 5624128,
+   "spread_bps": 40,
+   "ckb_usd": 0.00095239,
+   "sol_usd": 84.67,
+   "price_source": "coingecko",
+   "expires": 1794416233
+  },
+  "payment_hash": "9609a782c78ca32d79e87fbf8df7362d5ab39e11bd7e237299e21f214c0d0fd9",
+  "result": {
+   "outcome": "swapped",
+   "ckb": "500",
+   "sol": 0.005601632,
+   "recipient": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7"
+  },
+  "elapsed_ms": 4410
+ },
+ "before": {
+  "sol": 8.31589376,
+  "ckb_can_send": 901,
+  "ckb_can_receive": 0,
+  "lp_sol": 0.424985
+ },
+ "after": {
+  "sol": 8.321490392,
+  "ckb_can_send": 401,
+  "ckb_can_receive": 500,
+  "lp_sol": 0.419378368
+ }
+}

@@ -1,0 +1,132 @@
+{
+ "sats": 20000,
+ "user_sol": "7pxn8eFxQTJXkP8UKiRqVWax8wpnA3YF9FQVbgUVkUye",
+ "steps": {
+  "secret": {
+   "t": "0.0",
+   "payment_hash": "3a353601e3656a635e564c330977e9e0983b8f035c70f2220608533d4fbe1adb"
+  },
+  "balances_before": {
+   "t": "0.0",
+   "sol_lamports": 10000000,
+   "fiber_wrapped_btc": [
+    {
+     "channel_id": "0x0104a5cdf8140b19147ae610a6e45529aed512a534d397a4f289dd0050060cd0",
+     "local": "200000",
+     "offered_tlc": "0"
+    },
+    {
+     "channel_id": "0xfc4743fabdf4757b6bad85380863fcc6ad9965bd14418a20393e66cebace5880",
+     "local": "200000",
+     "offered_tlc": "0"
+    }
+   ]
+  },
+  "lp_quote": {
+   "t": "0.0",
+   "lamports": 120000000,
+   "rate_sol_per_btc": 600,
+   "lp": "FWaiUUUXybyQxmvQnTLgUMpD4Ys3fnHLYxiiGhkHX2f4",
+   "escrow": "B43nsMBN1o5arYz5zHE79MfzicgTj7oqicr49AeT3xsV",
+   "bolt11": "lnbcrt200u1p40fx82pp58g6nvq0rv44xxhjkfse…"
+  },
+  "hub_order": {
+   "t": "0.1",
+   "payment_hash": "0x3a353601e3656a635e564c330977e9e0983b8f035c70f2220608533d4fbe1adb",
+   "amount_sats": "0x4ec0",
+   "fee_sats": "0xa0",
+   "status": "Pending"
+  },
+  "fiber_invoice": {
+   "t": "0.1",
+   "payment_hash": "3a353601e3656a635e564c330977e9e0983b8f035c70f2220608533d4fbe1adb",
+   "amount": "20160"
+  },
+  "fiber_send_payment": {
+   "t": "0.1",
+   "status": "Created",
+   "fee": "0x0"
+  },
+  "sol_escrow_seen": {
+   "t": "3.1",
+   "amount": "120000000",
+   "claimer": "7pxn8eFxQTJXkP8UKiRqVWax8wpnA3YF9FQVbgUVkUye",
+   "expiry": 1794414947,
+   "secs_left": 119
+  },
+  "fiber_while_held": {
+   "t": "3.1",
+   "payment": "Inflight",
+   "channels": [
+    {
+     "channel_id": "0x0104a5cdf8140b19147ae610a6e45529aed512a534d397a4f289dd0050060cd0",
+     "local": "200000",
+     "offered_tlc": "20160"
+    },
+    {
+     "channel_id": "0xfc4743fabdf4757b6bad85380863fcc6ad9965bd14418a20393e66cebace5880",
+     "local": "200000",
+     "offered_tlc": "0"
+    }
+   ]
+  },
+  "sol_claim": {
+   "t": "3.5",
+   "sig": "5SBQsKvgnD82fJEGk1zTaxKvjdjirbAsTWPmzPDP7oCYjX7sid7N55eZmowtYVJPkxdQxmGuzewjHQXLMziBdYxL"
+  },
+  "fiber_payment_final": {
+   "t": "4.5",
+   "status": "Success",
+   "failed_error": null
+  },
+  "hub_order_final": {
+   "t": "4.5",
+   "status": "Success"
+  },
+  "lp_swap_final": {
+   "t": "4.5",
+   "payment_hash": "3a353601e3656a635e564c330977e9e0983b8f035c70f2220608533d4fbe1adb",
+   "sats": 20000,
+   "lamports": 120000000,
+   "claimer": "7pxn8eFxQTJXkP8UKiRqVWax8wpnA3YF9FQVbgUVkUye",
+   "bolt11": "lnbcrt200u1p40fx82pp58g6nvq0rv44xxhjkfsesjalfuzvrhrcrt3c0ygsxppfn6na7rtdsdpv2d85cgrnwashqgp3xgcrqvpsxqcrqgrvv9khqmmjw3escqzzsxqrcnssp5gxsjh9d3lpfu850cmvx6rc3qq26udr369v3w4uwh69s7jx4wqses9qxpqysgq9cdu5n9j2hdy0s05gmhd4eq4lgerjunem5xf4smc0m82jee828kpkmfawh9wq66vld9zkmnql26ydjpy4663uazn9qyjtkvtzmg6nqcqzmh9gn",
+   "created": 1794414826,
+   "quote_expires": 1794415426,
+   "escrow": "B43nsMBN1o5arYz5zHE79MfzicgTj7oqicr49AeT3xsV",
+   "status": "settled",
+   "ln": {
+    "amt_paid_msat": "20000000",
+    "htlcs": 1,
+    "expiry_height": 188,
+    "height_at_accept": 105
+   },
+   "sol_lock_tx": "2aZDJX9qgRZJ95cXW9J9DtFn4rSxLeRmDc1hYNtrnQgyuTaqxwoTxb9Yim5HkrfjDqCJCnu4Tn8C7bzmYDMJPiWy",
+   "sol_expiry": 1794414947,
+   "sol_claim_tx": "5SBQsKvgnD82fJEGk1zTaxKvjdjirbAsTWPmzPDP7oCYjX7sid7N55eZmowtYVJPkxdQxmGuzewjHQXLMziBdYxL",
+   "preimage": "65f70b2b6ac8cb50d0368e9c40021f260fc3d9d3a70af738c0bb8644d180f9a0"
+  },
+  "balances_after": {
+   "t": "4.5",
+   "sol_lamports": 129995000,
+   "sol_delta": 119995000,
+   "fiber_wrapped_btc": [
+    {
+     "channel_id": "0x0104a5cdf8140b19147ae610a6e45529aed512a534d397a4f289dd0050060cd0",
+     "local": "179840",
+     "offered_tlc": "0"
+    },
+    {
+     "channel_id": "0xfc4743fabdf4757b6bad85380863fcc6ad9965bd14418a20393e66cebace5880",
+     "local": "200000",
+     "offered_tlc": "0"
+    }
+   ]
+  }
+ },
+ "result": {
+  "claimed": true,
+  "fiber_status": "Success",
+  "sol_delta_lamports": 119995000,
+  "elapsed_s": 4.471
+ }
+}

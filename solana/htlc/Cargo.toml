@@ -1,0 +1,18 @@
+[package]
+name = "sol-htlc"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Spike: SHA-256 hash time-locked SOL escrow, the Solana leg of a CKB -> Fiber -> Lightning -> Solana swap"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+no-entrypoint = []
+
+[dependencies]
+solana-program = "5"
+solana-sha256-hasher = { version = "3", features = ["sha2"] }
+
+[workspace]

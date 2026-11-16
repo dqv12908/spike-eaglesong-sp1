@@ -1,0 +1,7 @@
+n=256 mainnet headers; cycles per header = (mode - baseline)/n
+pow_hash  blake2b(192B): 7516
+eaglesong reference sponge: 49675
+eaglesong_pow48 fast path: 32737
+block_hash blake2b(208B): 7514
+compact_to_target+difficulty: 621
+baseline total=6190

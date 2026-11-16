@@ -1,0 +1,17 @@
+{
+ "network": "sepolia",
+ "joint_address": "0xC6561ce9f464C869b97181008ff91F774B06654c",
+ "share_pub_user": "0x03f324c293e4aac7b6daba749877e31e721f555cc0bf80d499dc85511f5e11954e",
+ "share_pub_lp": "0x035d31b7d86ef7fa396a2c20814746c3d5e1baea6741f4c2ea4edf375374d04f13",
+ "user_share_alone_controls_it": false,
+ "lp_share_alone_controls_it": false,
+ "fund_tx": "0xa60c6e834d45e9709f31480bcb8577bf18bf825e57116096e952b09d6f475c24",
+ "fund_gas": "204600",
+ "sweep_tx": "0x4591296f0b7a093e697e7da21fd53496d03ced153ae7064393d4527a1c0b38d7",
+ "sweep_gas": "21000",
+ "swept_to": "0x0E3B2B8637a7Fcc053AEb64A0039F61cb997f7B7",
+ "wei_funded": "200000000000000",
+ "wei_received": "199999999265000",
+ "joint_balance_after": "0",
+ "joint_has_code": false
+}

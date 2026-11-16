@@ -1,0 +1,18 @@
+{
+ "cluster": "devnet",
+ "joint_address": "GvtS5AQBVT6vjWLkpppt6wpw6zRyjt5HyrKxVxsVe9cZ",
+ "k_user_pub": "df7471cae1c55ce4e13451d7b83a90bd0f4b71bec9330246fc31321d014152a1",
+ "k_lp_pub": "2f0e1eaeb480abc52cac930bc35d7d87493cf6bc054efa7f663c410c23873d5f",
+ "user_share_alone_valid": false,
+ "lp_share_alone_valid": false,
+ "fund_tx": "2naS99dziMbbUgqzqtEdp5NEYo9wzswYVeBbBJVuz5R62E8FP5sa6hMGokddZLUiws22MQvrWYeyDFcfftXfpvwe",
+ "sweep_tx": "xZMMdXp3fsd6HD2WjwELVyyZGapM2vnqrYTDjd6mA6jSqWc1azNnhGruk6DS7oL1jph1cXv19VUekhDzd7X5MVR",
+ "lamports_funded": 2000000,
+ "lamports_swept": 1995000,
+ "sweep_fee_paid_by": "joint address",
+ "joint_balance_after": 0,
+ "sweep_signatures": 1,
+ "sweep_programs": [
+  "11111111111111111111111111111111"
+ ]
+}

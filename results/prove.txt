@@ -1,0 +1,25 @@
+### system=core n=16 2026-11-10T18:20:19Z
+setup: 2.557477114s
+system=Core n=16 prove=35.20427466s verify=75.07925ms
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:13.92
+	Maximum resident set size (kbytes): 11763104
+exit=0
+### system=core n=256 2026-11-10T18:21:45Z
+setup: 3.016890367s
+system=Core n=256 prove=181.69742889s verify=130.224645ms
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:57.11
+	Maximum resident set size (kbytes): 38920904
+exit=0
+### system=compressed n=16 2026-11-10T18:25:43Z
+setup: 2.421789364s
+system=Compressed n=16 prove=95.137581782s verify=32.736673ms
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:20.13
+	Maximum resident set size (kbytes): 17669600
+exit=0
+### system=groth16 n=16 2026-11-10T18:29:47Z
+setup: 2.467574165s
+system=Groth16 n=16 prove=838.954349721s verify=213.244952ms
+proof bytes: 356 -> fixtures/proofs/groth16-mainnet-n16.json
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 15:56.47
+	Maximum resident set size (kbytes): 28025548
+exit=0

@@ -1,0 +1,2914 @@
+{
+ "what": "Cost of a hash-locked swap leg on Cardano (lock, claim, refund) and of plain-key transfers",
+ "generated_at_utc": "2026-11-12T19:39:26.695Z",
+ "network": "emulator (lucid-evolution Emulator) loaded with mainnet protocol parameters; slot numbering anchored to preprod",
+ "protocol_parameters": {
+  "source": "https://api.koios.rest/api/v1/epoch_params?_epoch_no=667",
+  "network": "mainnet",
+  "epoch_no": 667,
+  "fetched_at_utc": "2026-11-12T19:31:48.301Z",
+  "file": "cardano/params/mainnet-epoch-667.json",
+  "min_fee_a": 44,
+  "min_fee_b": 155381,
+  "price_mem": 0.0577,
+  "price_step": 0.0000721,
+  "coins_per_utxo_byte": 4310,
+  "collateral_percent": 150,
+  "min_fee_ref_script_cost_per_byte": 15,
+  "max_tx_size": 16384,
+  "max_tx_ex_mem": 16500000,
+  "max_tx_ex_steps": 10000000000,
+  "protocol_version": "11.0",
+  "plutus_v3_cost_model_entries": 350
+ },
+ "libraries": {
+  "node": "v22.18.0",
+  "@lucid-evolution/lucid": "0.8.9",
+  "@lucid-evolution/provider": "0.4.8",
+  "@lucid-evolution/uplc": "0.5.3",
+  "@lucid-evolution/cml": "0.1.2",
+  "@noble/curves": "1.9.7",
+  "@noble/hashes": "1.8.0",
+  "aiken": "v1.1.19+e525483 (own validators, cardano-scaling blueprint), v1.1.22+39d6b04 (Cardano Foundation template)"
+ },
+ "locked_lovelace_per_test": 10000000,
+ "validators": [
+  {
+   "id": "sha256",
+   "title": "htlc_sha256 (cardano-scaling/htlc with blake2b_256 replaced by sha2_256)",
+   "origin": {
+    "repo": "https://github.com/cardano-scaling/htlc",
+    "commit": "393893f0b4df4e37079b8b6ecb9f930e17b6344c",
+    "modified": true,
+    "change": "one builtin swapped: blake2b_256 -> sha2_256; built with the default (silent) trace level",
+    "source": "cardano/onchain/validators/htlc_sha256.ak"
+   },
+   "notes": "secret length is not checked",
+   "hash": "sha2_256",
+   "compiler": "v1.1.19+e525483",
+   "plutus": "v3",
+   "script_hash": "81c74d891498c8f9df897f369983ea20a305d75474c7d81e32d598ee",
+   "script_bytes": 660,
+   "one_script_for_all_swaps": true,
+   "claim_needs_receiver_signature": true,
+   "claim_checks_deadline": true
+  },
+  {
+   "id": "sha256_len32",
+   "title": "htlc_sha256_len32 (same, plus: preimage must be exactly 32 bytes)",
+   "origin": {
+    "repo": "https://github.com/cardano-scaling/htlc",
+    "commit": "393893f0b4df4e37079b8b6ecb9f930e17b6344c",
+    "modified": true,
+    "change": "blake2b_256 -> sha2_256 and length_of_bytearray(preimage) == 32",
+    "source": "cardano/onchain/validators/htlc_sha256.ak"
+   },
+   "notes": "the variant a swap against a 32-byte Fiber preimage should use",
+   "hash": "sha2_256",
+   "compiler": "v1.1.19+e525483",
+   "plutus": "v3",
+   "script_hash": "2ab506f230130c9a5ff1b693a9c1418952bb585633738e0679876f8c",
+   "script_bytes": 678,
+   "one_script_for_all_swaps": true,
+   "claim_needs_receiver_signature": true,
+   "claim_checks_deadline": true
+  },
+  {
+   "id": "cs_blake2b",
+   "title": "cardano-scaling/htlc, committed plutus.json, unmodified",
+   "origin": {
+    "repo": "https://github.com/cardano-scaling/htlc",
+    "commit": "393893f0b4df4e37079b8b6ecb9f930e17b6344c",
+    "modified": false,
+    "change": "none; committed blueprint (Aiken v1.1.19, built with -t compact) used as is",
+    "source": "cardano/vendor/cardano-scaling-htlc/plutus.json"
+   },
+   "notes": "hashes with blake2b_256, so it cannot share a secret with a SHA-256 Fiber payment; measured only for comparison",
+   "hash": "blake2b_256",
+   "compiler": "v1.1.19+e525483",
+   "plutus": "v3",
+   "script_hash": "0cf48862039d41d87df4257a6861640d99168f7ab9fa294e6da9ab57",
+   "script_bytes": 729,
+   "one_script_for_all_swaps": true,
+   "claim_needs_receiver_signature": true,
+   "claim_checks_deadline": true
+  },
+  {
+   "id": "cf_sha256",
+   "title": "cardano-foundation template htlc, unmodified source, compiled here",
+   "origin": {
+    "repo": "https://github.com/cardano-foundation/cardano-template-and-ecosystem-monitoring",
+    "path": "htlc/onchain/aiken",
+    "commit": "cbc86fc5d5a25daece94666a9e6f1c48368c1c72",
+    "modified": false,
+    "change": "none; no plutus.json is committed, compiled here with the pinned Aiken v1.1.22 (default trace level)",
+    "source": "cardano/vendor/cardano-foundation-htlc/plutus.json"
+   },
+   "notes": "sha2_256, but a claim needs no signature and has no deadline: anyone who learns the secret can take the funds, also after expiry",
+   "hash": "sha2_256",
+   "compiler": "v1.1.22+39d6b04",
+   "plutus": "v3",
+   "script_hash": "2ba7e4ffc46b678f3d6219f30d7dca4290e1412d191aa72ccdc3b68a (before parameters are applied; every swap gets its own script hash)",
+   "script_bytes": 403,
+   "one_script_for_all_swaps": false,
+   "claim_needs_receiver_signature": false,
+   "claim_checks_deadline": false
+  }
+ ],
+ "runs": {
+  "sha256": {
+   "script_attached": {
+    "negative_tests": [
+     {
+      "what": "claim with a wrong secret",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with the right secret but signed by someone who is not the receiver",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with the right secret and no required signer",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim whose validity upper bound is one slot past the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with no validity upper bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund before the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund whose validity lower bound equals the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund with no validity lower bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund after the deadline signed by someone who is not the owner",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     }
+    ],
+    "lock": {
+     "label": "sha256 / script attached: lock",
+     "tx_hash": "1998eff39def0cd83f23b638f1e93da5f3efbdde676dfe600b844088f88bb45a",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wzquwnvfzjvv37wl39lndxvrags2xpwh236v0kq7xt2e3msw3py0c",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 989827811,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "sha256 / script attached: claim",
+     "tx_hash": "9a5315d4aaf924f767e84c5ba0d7eb36ad14b0ae930ef26f557b99a5aba5a2c6",
+     "size_bytes": 1134,
+     "fee_lovelace": 209363,
+     "fee_ada": "0.209363",
+     "ex_units": {
+      "mem": 47261,
+      "steps": 16401923
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 49896,
+      "constant": 155381,
+      "execution": 3910,
+      "reference_script": 0,
+      "recomputed_min_fee": 209187,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 663,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": null,
+      "to_slot": 138850766
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 314045
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9790637,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 47261,
+      "steps": 16401923,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9790637
+    },
+    "lock_for_refund": {
+     "label": "sha256 / script attached: lock (to be refunded)",
+     "tx_hash": "90b7e362cdb8afbbcca4b9b41b9b6d1eaa268ceb78904538d0857232f8a41e1c",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wzquwnvfzjvv37wl39lndxvrags2xpwh236v0kq7xt2e3msw3py0c",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 979655622,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "sha256 / script attached: refund",
+     "tx_hash": "c3f11c6ec212eb793e41b6f690f741bfe782f3ec4a9f9bb49232deb451ee1a47",
+     "size_bytes": 1099,
+     "fee_lovelace": 207441,
+     "fee_ada": "0.207441",
+     "ex_units": {
+      "mem": 42941,
+      "steps": 14553625
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 48356,
+      "constant": 155381,
+      "execution": 3528,
+      "reference_script": 0,
+      "recomputed_min_fee": 207265,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 663,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138829807,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 979655622,
+      "return_lovelace": 974655622,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 311162
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9792559,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 42941,
+      "steps": 14553625,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9792559
+    }
+   },
+   "locked_output_min_lovelace": 1349030,
+   "locked_output_bytes": 153,
+   "publish_reference_script": {
+    "label": "sha256: publish reference script (one-off)",
+    "tx_hash": "65aaf3e434dc9eb29ab303e3eede35dcf6a68f8b7edf2aa4a947d0f08b27fab3",
+    "size_bytes": 963,
+    "fee_lovelace": 197929,
+    "fee_ada": "0.197929",
+    "ex_units": null,
+    "fee_breakdown_lovelace": {
+     "size_part": 42372,
+     "constant": 155381,
+     "execution": 0,
+     "reference_script": 0,
+     "recomputed_min_fee": 197753,
+     "paid_above_min": 176
+    },
+    "inputs": 1,
+    "reference_inputs": 0,
+    "reference_script_bytes": 0,
+    "witness_script_bytes": 0,
+    "vkey_witnesses": 1,
+    "required_signers": 0,
+    "validity": {
+     "from_slot": null,
+     "to_slot": null
+    },
+    "collateral": null,
+    "outputs": [
+     {
+      "index": 0,
+      "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+      "lovelace": 3870380,
+      "min_lovelace": 3870380,
+      "bytes": 738,
+      "inline_datum": false,
+      "script_ref": true
+     },
+     {
+      "index": 1,
+      "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+      "lovelace": 975587313,
+      "min_lovelace": 969750,
+      "bytes": 65,
+      "inline_datum": false,
+      "script_ref": false
+     }
+    ],
+    "checks": {
+     "fee_covers_recomputed_min_fee": true,
+     "value_conserved": true,
+     "outputs_meet_min_utxo": true,
+     "within_max_tx_size": true,
+     "within_max_ex_units": true,
+     "vkey_witnesses_verify_noble": true,
+     "collateral_covers_requirement": true
+    },
+    "all_checks_pass": true,
+    "deposit_lovelace": 3870380
+   },
+   "reference_script": {
+    "negative_tests": [],
+    "lock": {
+     "label": "sha256 / reference script: lock",
+     "tx_hash": "5cb03118b65d514256d7ccd936d966887be8605073ab197dce1c9462567e77a1",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wzquwnvfzjvv37wl39lndxvrags2xpwh236v0kq7xt2e3msw3py0c",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 965415124,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "sha256 / reference script: claim",
+     "tx_hash": "a753a64d1ae1f9b68c851719464772bcf3d6a8be8772e707ae16fec98b387047",
+     "size_bytes": 507,
+     "fee_lovelace": 191675,
+     "fee_ada": "0.191675",
+     "ex_units": {
+      "mem": 47261,
+      "steps": 16401923
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 22308,
+      "constant": 155381,
+      "execution": 3910,
+      "reference_script": 9900,
+      "recomputed_min_fee": 191499,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 1,
+     "reference_script_bytes": 660,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": null,
+      "to_slot": 138851466
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 287513
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9808325,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 47261,
+      "steps": 16401923,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9808325
+    },
+    "lock_for_refund": {
+     "label": "sha256 / reference script: lock (to be refunded)",
+     "tx_hash": "2b8253c7384efde0e7591dca075f7a106c08460bd890a69ffb4baa5abdbe0fcd",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wzquwnvfzjvv37wl39lndxvrags2xpwh236v0kq7xt2e3msw3py0c",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 955242935,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "sha256 / reference script: refund",
+     "tx_hash": "48ff3d987cf3981fff53e57a6bb3920b1c110fdc4d19cb2f3623dc2e9df979ce",
+     "size_bytes": 472,
+     "fee_lovelace": 189753,
+     "fee_ada": "0.189753",
+     "ex_units": {
+      "mem": 42941,
+      "steps": 14553625
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 20768,
+      "constant": 155381,
+      "execution": 3528,
+      "reference_script": 9900,
+      "recomputed_min_fee": 189577,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 1,
+     "reference_script_bytes": 660,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138830507,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 955242935,
+      "return_lovelace": 950242935,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 284630
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9810247,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 42941,
+      "steps": 14553625,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9810247
+    }
+   }
+  },
+  "sha256_len32": {
+   "script_attached": {
+    "negative_tests": [
+     {
+      "what": "claim with a wrong secret",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with the right secret but signed by someone who is not the receiver",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with the right secret and no required signer",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim whose validity upper bound is one slot past the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with no validity upper bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund before the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund whose validity lower bound equals the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund with no validity lower bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund after the deadline signed by someone who is not the owner",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     }
+    ],
+    "lock": {
+     "label": "sha256_len32 / script attached: lock",
+     "tx_hash": "6f17dec631b97ed3dfada6107dee7985c194f4da57440943285ca9fbb3c5f7ac",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wq4t2phjxqfsexjl7xmf82wpgxy49w6c2ceh8rsx0xrklrq0wsj0r",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 945070746,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "sha256_len32 / script attached: claim",
+     "tx_hash": "04031c7ca035778f274bcd31340cf1769b207420aab54d8d4deaadf3cc44e8a6",
+     "size_bytes": 1152,
+     "fee_lovelace": 210277,
+     "fee_ada": "0.210277",
+     "ex_units": {
+      "mem": 48873,
+      "steps": 16808405
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 50688,
+      "constant": 155381,
+      "execution": 4032,
+      "reference_script": 0,
+      "recomputed_min_fee": 210101,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 681,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": null,
+      "to_slot": 138852146
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 315416
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9789723,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 48873,
+      "steps": 16808405,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9789723
+    },
+    "lock_for_refund": {
+     "label": "sha256_len32 / script attached: lock (to be refunded)",
+     "tx_hash": "899f7b306b0aef9d6a3a78af390ebc0149c13d0c14f03891386a8819c12d0f92",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wq4t2phjxqfsexjl7xmf82wpgxy49w6c2ceh8rsx0xrklrq0wsj0r",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 934898557,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "sha256_len32 / script attached: refund",
+     "tx_hash": "9295d067f438a98300b39533dfface966f083e1bb78827c585a74e5545ed7d26",
+     "size_bytes": 1117,
+     "fee_lovelace": 208233,
+     "fee_ada": "0.208233",
+     "ex_units": {
+      "mem": 42941,
+      "steps": 14553625
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 49148,
+      "constant": 155381,
+      "execution": 3528,
+      "reference_script": 0,
+      "recomputed_min_fee": 208057,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 681,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138831187,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 934898557,
+      "return_lovelace": 929898557,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 312350
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9791767,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 42941,
+      "steps": 14553625,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9791767
+    }
+   },
+   "locked_output_min_lovelace": 1349030,
+   "locked_output_bytes": 153,
+   "publish_reference_script": {
+    "label": "sha256_len32: publish reference script (one-off)",
+    "tx_hash": "441a8a61ed8b54cab89772f4bfd6ab27026429da43a130582f9c3f1f67b171fe",
+    "size_bytes": 981,
+    "fee_lovelace": 198721,
+    "fee_ada": "0.198721",
+    "ex_units": null,
+    "fee_breakdown_lovelace": {
+     "size_part": 43164,
+     "constant": 155381,
+     "execution": 0,
+     "reference_script": 0,
+     "recomputed_min_fee": 198545,
+     "paid_above_min": 176
+    },
+    "inputs": 1,
+    "reference_inputs": 0,
+    "reference_script_bytes": 0,
+    "witness_script_bytes": 0,
+    "vkey_witnesses": 1,
+    "required_signers": 0,
+    "validity": {
+     "from_slot": null,
+     "to_slot": null
+    },
+    "collateral": null,
+    "outputs": [
+     {
+      "index": 0,
+      "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+      "lovelace": 3947960,
+      "min_lovelace": 3947960,
+      "bytes": 756,
+      "inline_datum": false,
+      "script_ref": true
+     },
+     {
+      "index": 1,
+      "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+      "lovelace": 930751876,
+      "min_lovelace": 969750,
+      "bytes": 65,
+      "inline_datum": false,
+      "script_ref": false
+     }
+    ],
+    "checks": {
+     "fee_covers_recomputed_min_fee": true,
+     "value_conserved": true,
+     "outputs_meet_min_utxo": true,
+     "within_max_tx_size": true,
+     "within_max_ex_units": true,
+     "vkey_witnesses_verify_noble": true,
+     "collateral_covers_requirement": true
+    },
+    "all_checks_pass": true,
+    "deposit_lovelace": 3947960
+   },
+   "reference_script": {
+    "negative_tests": [],
+    "lock": {
+     "label": "sha256_len32 / reference script: lock",
+     "tx_hash": "a68d40c2d1ea06ee3baffdf09ba1f7aa666a0eea494122e84b8cc74acd591d5f",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wq4t2phjxqfsexjl7xmf82wpgxy49w6c2ceh8rsx0xrklrq0wsj0r",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 920579687,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "sha256_len32 / reference script: claim",
+     "tx_hash": "d5dd73b70a3f28e4870eeeafcb5809bf42ead55826f23c75e2e3fdc1018348c3",
+     "size_bytes": 507,
+     "fee_lovelace": 192067,
+     "fee_ada": "0.192067",
+     "ex_units": {
+      "mem": 48873,
+      "steps": 16808405
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 22308,
+      "constant": 155381,
+      "execution": 4032,
+      "reference_script": 10170,
+      "recomputed_min_fee": 191891,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 1,
+     "reference_script_bytes": 678,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": null,
+      "to_slot": 138852846
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 288101
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9807933,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 48873,
+      "steps": 16808405,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9807933
+    },
+    "lock_for_refund": {
+     "label": "sha256_len32 / reference script: lock (to be refunded)",
+     "tx_hash": "9b9c6a0d3828d232e0bda83b7df546e553e39e3e14e793932f38cc09dc33de88",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wq4t2phjxqfsexjl7xmf82wpgxy49w6c2ceh8rsx0xrklrq0wsj0r",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 910407498,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "sha256_len32 / reference script: refund",
+     "tx_hash": "58011e24ac2d635cb644bd896e002c69137b60df44096b547d3b02e53c9d365b",
+     "size_bytes": 472,
+     "fee_lovelace": 190023,
+     "fee_ada": "0.190023",
+     "ex_units": {
+      "mem": 42941,
+      "steps": 14553625
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 20768,
+      "constant": 155381,
+      "execution": 3528,
+      "reference_script": 10170,
+      "recomputed_min_fee": 189847,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 1,
+     "reference_script_bytes": 678,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138831887,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 910407498,
+      "return_lovelace": 905407498,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 285035
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9809977,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 42941,
+      "steps": 14553625,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9809977
+    }
+   }
+  },
+  "cs_blake2b": {
+   "script_attached": {
+    "negative_tests": [
+     {
+      "what": "claim with a wrong secret",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with the right secret but signed by someone who is not the receiver",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with the right secret and no required signer",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim whose validity upper bound is one slot past the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "claim with no validity upper bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund before the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund whose validity lower bound equals the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund with no validity lower bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund after the deadline signed by someone who is not the owner",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     }
+    ],
+    "lock": {
+     "label": "cs_blake2b / script attached: lock",
+     "tx_hash": "2d293b01c87d76457522115f4108b7a2b64dc701723ea5b57218cd03e49a9c2d",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wqx0fzrzqww5rkra7sjh56rpvsxej95002ul522wdk56k4c6t056g",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 900235309,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "cs_blake2b / script attached: claim",
+     "tx_hash": "bb165edbed0238abaf519d7325e109cc7ed354548b4f97991b35fc15212137a2",
+     "size_bytes": 1203,
+     "fee_lovelace": 212696,
+     "fee_ada": "0.212696",
+     "ex_units": {
+      "mem": 51357,
+      "steps": 17237392
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 52932,
+      "constant": 155381,
+      "execution": 4207,
+      "reference_script": 0,
+      "recomputed_min_fee": 212520,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 732,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": null,
+      "to_slot": 138853526
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 319044
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9787304,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 51357,
+      "steps": 17237392,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9787304
+    },
+    "lock_for_refund": {
+     "label": "cs_blake2b / script attached: lock (to be refunded)",
+     "tx_hash": "402662da73b36eaed42bf967f65ce791eb8cdc4bfb4d8669c9c1d885bb2c02dd",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wqx0fzrzqww5rkra7sjh56rpvsxej95002ul522wdk56k4c6t056g",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 890063120,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "cs_blake2b / script attached: refund",
+     "tx_hash": "25a41c6fd0a811c0b88676b2f12169293f6d82d17b37cedc7399aeb5d33aed97",
+     "size_bytes": 1168,
+     "fee_lovelace": 210624,
+     "fee_ada": "0.210624",
+     "ex_units": {
+      "mem": 44973,
+      "steps": 14968000
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 51392,
+      "constant": 155381,
+      "execution": 3675,
+      "reference_script": 0,
+      "recomputed_min_fee": 210448,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 732,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138832567,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 890063120,
+      "return_lovelace": 885063120,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 315936
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9789376,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 44973,
+      "steps": 14968000,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9789376
+    }
+   },
+   "locked_output_min_lovelace": 1349030,
+   "locked_output_bytes": 153,
+   "publish_reference_script": {
+    "label": "cs_blake2b: publish reference script (one-off)",
+    "tx_hash": "d74bc08dab800800dbaf063851756d90001b80b677a0c36bd059ac0d2b37d19e",
+    "size_bytes": 1032,
+    "fee_lovelace": 200965,
+    "fee_ada": "0.200965",
+    "ex_units": null,
+    "fee_breakdown_lovelace": {
+     "size_part": 45408,
+     "constant": 155381,
+     "execution": 0,
+     "reference_script": 0,
+     "recomputed_min_fee": 200789,
+     "paid_above_min": 176
+    },
+    "inputs": 1,
+    "reference_inputs": 0,
+    "reference_script_bytes": 0,
+    "witness_script_bytes": 0,
+    "vkey_witnesses": 1,
+    "required_signers": 0,
+    "validity": {
+     "from_slot": null,
+     "to_slot": null
+    },
+    "collateral": null,
+    "outputs": [
+     {
+      "index": 0,
+      "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+      "lovelace": 4167770,
+      "min_lovelace": 4167770,
+      "bytes": 807,
+      "inline_datum": false,
+      "script_ref": true
+     },
+     {
+      "index": 1,
+      "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+      "lovelace": 885694385,
+      "min_lovelace": 969750,
+      "bytes": 65,
+      "inline_datum": false,
+      "script_ref": false
+     }
+    ],
+    "checks": {
+     "fee_covers_recomputed_min_fee": true,
+     "value_conserved": true,
+     "outputs_meet_min_utxo": true,
+     "within_max_tx_size": true,
+     "within_max_ex_units": true,
+     "vkey_witnesses_verify_noble": true,
+     "collateral_covers_requirement": true
+    },
+    "all_checks_pass": true,
+    "deposit_lovelace": 4167770
+   },
+   "reference_script": {
+    "negative_tests": [],
+    "lock": {
+     "label": "cs_blake2b / reference script: lock",
+     "tx_hash": "885962ed42e913b018ce33d485f0c541364be3aceb9a674cd2d7a503df758b38",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wqx0fzrzqww5rkra7sjh56rpvsxej95002ul522wdk56k4c6t056g",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 875522196,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "cs_blake2b / reference script: claim",
+     "tx_hash": "592b769718b5e1c5b4ea719c9c37a83da93b43307369882712b0a7705ea58c52",
+     "size_bytes": 507,
+     "fee_lovelace": 193007,
+     "fee_ada": "0.193007",
+     "ex_units": {
+      "mem": 51357,
+      "steps": 17237392
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 22308,
+      "constant": 155381,
+      "execution": 4207,
+      "reference_script": 10935,
+      "recomputed_min_fee": 192831,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 1,
+     "reference_script_bytes": 729,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": null,
+      "to_slot": 138854226
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 289511
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9806993,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 51357,
+      "steps": 17237392,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9806993
+    },
+    "lock_for_refund": {
+     "label": "cs_blake2b / reference script: lock (to be refunded)",
+     "tx_hash": "d25a7504283fa69bb73d97b24101e15f9f8add605aca6d4ec113b53126e233c9",
+     "size_bytes": 378,
+     "fee_lovelace": 172189,
+     "fee_ada": "0.172189",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 16632,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 172013,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wqx0fzrzqww5rkra7sjh56rpvsxej95002ul522wdk56k4c6t056g",
+       "lovelace": 10000000,
+       "min_lovelace": 1349030,
+       "bytes": 153,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 865350007,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "cs_blake2b / reference script: refund",
+     "tx_hash": "c0487c623c770d72e48d5ef58246ac9392bd3f0ba375aa79e05bfcafaf59cf25",
+     "size_bytes": 472,
+     "fee_lovelace": 190935,
+     "fee_ada": "0.190935",
+     "ex_units": {
+      "mem": 44973,
+      "steps": 14968000
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 20768,
+      "constant": 155381,
+      "execution": 3675,
+      "reference_script": 10935,
+      "recomputed_min_fee": 190759,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 1,
+     "reference_script_bytes": 729,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138833267,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 865350007,
+      "return_lovelace": 860350007,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 286403
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9809065,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 44973,
+      "steps": 14968000,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9809065
+    }
+   }
+  },
+  "cf_sha256": {
+   "script_attached": {
+    "negative_tests": [
+     {
+      "what": "claim with a wrong secret",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund before the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund whose validity lower bound equals the deadline",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund with no validity lower bound",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     },
+     {
+      "what": "refund after the deadline signed by someone who is not the owner",
+      "expected": "rejected by the validator",
+      "result": "rejected by the validator",
+      "error": "\"failed script execution Spend[0] the validator crashed / exited prematurely\""
+     }
+    ],
+    "lock": {
+     "label": "cf_sha256 / script attached: lock",
+     "tx_hash": "17cd587d665c17a6645cfd3857fda29ac3ced8cd77c78cdd55bb10cd5d233f5c",
+     "size_bytes": 273,
+     "fee_lovelace": 167569,
+     "fee_ada": "0.167569",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 12012,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 167393,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wqml8en2y7uh5q4h85pk4h2ngjskwh7las4ela4z328ctdc4hcwqv",
+       "lovelace": 10000000,
+       "min_lovelace": 896480,
+       "bytes": 48,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 855182438,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "claim": {
+     "label": "cf_sha256 / script attached: claim",
+     "tx_hash": "54f4a6141bf639d4ddd68395918ebac2c7cb999ba58542220b3d3f70947db0a3",
+     "size_bytes": 923,
+     "fee_lovelace": 198013,
+     "fee_ada": "0.198013",
+     "ex_units": {
+      "mem": 22792,
+      "steps": 7322352
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 40612,
+      "constant": 155381,
+      "execution": 1844,
+      "reference_script": 0,
+      "recomputed_min_fee": 197837,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 493,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 100000000,
+      "return_lovelace": 95000000,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 297020
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qpx5rfj5fy2j7fpzwjpnz7ulwwzwwqru6tte92jsyy8aw83q9l8t0e9ems5av20mqegs0mkfmzcy453tmncj669j0vas9khgey",
+       "lovelace": 9801987,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 22792,
+      "steps": 7322352,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "receiver_balance_change_lovelace": 9801987
+    },
+    "lock_for_refund": {
+     "label": "cf_sha256 / script attached: lock (to be refunded)",
+     "tx_hash": "44471c84ee35fd531e9e35c12303ff40699befdc7a27e39a21274024049b03c6",
+     "size_bytes": 273,
+     "fee_lovelace": 167569,
+     "fee_ada": "0.167569",
+     "ex_units": null,
+     "fee_breakdown_lovelace": {
+      "size_part": 12012,
+      "constant": 155381,
+      "execution": 0,
+      "reference_script": 0,
+      "recomputed_min_fee": 167393,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 0,
+     "vkey_witnesses": 1,
+     "required_signers": 0,
+     "validity": {
+      "from_slot": null,
+      "to_slot": null
+     },
+     "collateral": null,
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1wq0m0u2t3wxrygkd548x3n8x7tl0fd20ul3zrrg2az54fqgyy938e",
+       "lovelace": 10000000,
+       "min_lovelace": 896480,
+       "bytes": 48,
+       "inline_datum": true,
+       "script_ref": false
+      },
+      {
+       "index": 1,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 845014869,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true
+    },
+    "refund": {
+     "label": "cf_sha256 / script attached: refund",
+     "tx_hash": "f6ddeeabd07ffb6314b19c1217b8ddd7e9d7532a126bf416304e6a73498649cb",
+     "size_bytes": 929,
+     "fee_lovelace": 199290,
+     "fee_ada": "0.199290",
+     "ex_units": {
+      "mem": 35235,
+      "steps": 11426502
+     },
+     "fee_breakdown_lovelace": {
+      "size_part": 40876,
+      "constant": 155381,
+      "execution": 2857,
+      "reference_script": 0,
+      "recomputed_min_fee": 199114,
+      "paid_above_min": 176
+     },
+     "inputs": 1,
+     "reference_inputs": 0,
+     "reference_script_bytes": 0,
+     "witness_script_bytes": 493,
+     "vkey_witnesses": 1,
+     "required_signers": 1,
+     "validity": {
+      "from_slot": 138833947,
+      "to_slot": null
+     },
+     "collateral": {
+      "inputs": 1,
+      "input_lovelace": 845014869,
+      "return_lovelace": 840014869,
+      "total_collateral_lovelace": 5000000,
+      "required_150pct_of_fee_lovelace": 298935
+     },
+     "outputs": [
+      {
+       "index": 0,
+       "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+       "lovelace": 9800710,
+       "min_lovelace": 969750,
+       "bytes": 65,
+       "inline_datum": false,
+       "script_ref": false
+      }
+     ],
+     "checks": {
+      "fee_covers_recomputed_min_fee": true,
+      "value_conserved": true,
+      "outputs_meet_min_utxo": true,
+      "within_max_tx_size": true,
+      "within_max_ex_units": true,
+      "vkey_witnesses_verify_noble": true,
+      "collateral_covers_requirement": true
+     },
+     "all_checks_pass": true,
+     "real_node_ex_units": {
+      "mem": 35235,
+      "steps": 11426502,
+      "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+      "matches_declared": true
+     },
+     "owner_balance_change_lovelace": 9800710
+    }
+   },
+   "locked_output_min_lovelace": 896480,
+   "locked_output_bytes": 48,
+   "reference_script": null,
+   "reference_script_note": "not measured: the hash, expiry and owner are compiled into the script, so every swap has a different script and a published copy cannot be shared between swaps",
+   "limits_demonstrated": {
+    "third_party_claim_after_expiry_with_only_the_secret": "accepted",
+    "error": null
+   }
+  }
+ },
+ "real_node_cross_check": {
+  "node": "cardano-node behind Koios preprod (Ogmios evaluateTransaction with additionalUtxo)",
+  "preprod_epoch": 325,
+  "preprod_plutus_v3_cost_model_identical_to_mainnet": true
+ },
+ "long_secret_test": {
+  "secret_bytes": 64,
+  "sha256": "accepted",
+  "sha256_len32": "rejected (\"failed script execution Spend[0] the validator crashed / exited prematurely\")"
+ },
+ "emulator_probe": {
+  "what": "valid signed claim whose redeemer secret was replaced by random bytes after signing (script must fail; script-data hash no longer matches)",
+  "body_unchanged": true,
+  "real_node_evaluation": "rejected (ResponseError: StatusCode: non 2xx status code : {\"jsonrpc\":\"2.0\",\"method\":\"evaluateTransaction\",\"error\":{\"code\":3010,\"message\":\"Some scripts of the transactions terminated with error(s).\",\"data\":[{\"v)",
+  "emulator_submit": "accepted",
+  "conclusion": "The emulator does NOT execute Plutus scripts or check the script-data hash at submission. Script results in this report come from the evaluation lucid runs while building the transaction, cross-checked against a real node through Ogmios."
+ },
+ "sponsored_claims": {
+  "validator": "sha256_len32",
+  "variant": "reference script",
+  "receiver": "an address holding no ADA at all",
+  "receiver_alone_with_zero_ada": "cannot build: { Complete: Your wallet does not have enough funds to cover the required 5000000 Lovelace collateral. Or it contains UTxOs with reference scripts; which are exc",
+  "sponsor_pays_fee_and_collateral": {
+   "label": "sha256_len32: claim, sponsor pays fee + collateral, receiver co-signs",
+   "tx_hash": "916e9bda6e2dba9a37c6daae72e5e4f61186b1ed03ee93ddd56c9faa11574b01",
+   "size_bytes": 709,
+   "fee_lovelace": 200955,
+   "fee_ada": "0.200955",
+   "ex_units": {
+    "mem": 48873,
+    "steps": 16808405
+   },
+   "fee_breakdown_lovelace": {
+    "size_part": 31196,
+    "constant": 155381,
+    "execution": 4032,
+    "reference_script": 10170,
+    "recomputed_min_fee": 200779,
+    "paid_above_min": 176
+   },
+   "inputs": 2,
+   "reference_inputs": 1,
+   "reference_script_bytes": 678,
+   "witness_script_bytes": 0,
+   "vkey_witnesses": 2,
+   "required_signers": 1,
+   "validity": {
+    "from_slot": null,
+    "to_slot": 138856306
+   },
+   "collateral": {
+    "inputs": 1,
+    "input_lovelace": 100000000,
+    "return_lovelace": 95000000,
+    "total_collateral_lovelace": 5000000,
+    "required_150pct_of_fee_lovelace": 301433
+   },
+   "outputs": [
+    {
+     "index": 0,
+     "address": "addr_test1qpdhvmmfxcuyau8h49pe63x6yuqk2sacn27re5q2xazg7ftf2vgtye7cj55tdrhgel867tqqp6zfdhjh7pmmstx0nqps2jyhww",
+     "lovelace": 10000000,
+     "min_lovelace": 969750,
+     "bytes": 65,
+     "inline_datum": false,
+     "script_ref": false
+    },
+    {
+     "index": 1,
+     "address": "addr_test1qrdm7z6j3z0uaxvknw9q8xgajydap6gss3an5epkuesu35exp3qjhtjrm8egfm25p2p5xt46p49k9f84paqu82mdmvvsdl43up",
+     "lovelace": 99799045,
+     "min_lovelace": 969750,
+     "bytes": 65,
+     "inline_datum": false,
+     "script_ref": false
+    }
+   ],
+   "checks": {
+    "fee_covers_recomputed_min_fee": true,
+    "value_conserved": true,
+    "outputs_meet_min_utxo": true,
+    "within_max_tx_size": true,
+    "within_max_ex_units": true,
+    "vkey_witnesses_verify_noble": true,
+    "collateral_covers_requirement": true
+   },
+   "all_checks_pass": true,
+   "real_node_ex_units": {
+    "mem": 48873,
+    "steps": 16808405,
+    "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+    "matches_declared": true
+   },
+   "sponsor_balance_change_lovelace": -200955,
+   "receiver_balance_change_lovelace": 10000000
+  },
+  "sponsor_lends_collateral_only": {
+   "label": "sha256_len32: claim, sponsor lends collateral only, fee from the locked ADA",
+   "tx_hash": "f8200da05dc69263e2d4663c37ec9dedac620fa981e8b91713d4f289820b10da",
+   "size_bytes": 608,
+   "fee_lovelace": 196511,
+   "fee_ada": "0.196511",
+   "ex_units": {
+    "mem": 48873,
+    "steps": 16808405
+   },
+   "fee_breakdown_lovelace": {
+    "size_part": 26752,
+    "constant": 155381,
+    "execution": 4032,
+    "reference_script": 10170,
+    "recomputed_min_fee": 196335,
+    "paid_above_min": 176
+   },
+   "inputs": 1,
+   "reference_inputs": 1,
+   "reference_script_bytes": 678,
+   "witness_script_bytes": 0,
+   "vkey_witnesses": 2,
+   "required_signers": 1,
+   "validity": {
+    "from_slot": null,
+    "to_slot": 138856346
+   },
+   "collateral": {
+    "inputs": 1,
+    "input_lovelace": 99799045,
+    "return_lovelace": 94799045,
+    "total_collateral_lovelace": 5000000,
+    "required_150pct_of_fee_lovelace": 294767
+   },
+   "outputs": [
+    {
+     "index": 0,
+     "address": "addr_test1qpdhvmmfxcuyau8h49pe63x6yuqk2sacn27re5q2xazg7ftf2vgtye7cj55tdrhgel867tqqp6zfdhjh7pmmstx0nqps2jyhww",
+     "lovelace": 9803489,
+     "min_lovelace": 969750,
+     "bytes": 65,
+     "inline_datum": false,
+     "script_ref": false
+    }
+   ],
+   "checks": {
+    "fee_covers_recomputed_min_fee": true,
+    "value_conserved": true,
+    "outputs_meet_min_utxo": true,
+    "within_max_tx_size": true,
+    "within_max_ex_units": true,
+    "vkey_witnesses_verify_noble": true,
+    "collateral_covers_requirement": true
+   },
+   "all_checks_pass": true,
+   "real_node_ex_units": {
+    "mem": 48873,
+    "steps": 16808405,
+    "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+    "matches_declared": true
+   },
+   "sponsor_balance_change_lovelace": 0,
+   "receiver_balance_change_lovelace": 9803489,
+   "secret_appears_in_tx_body": false
+  },
+  "receiver_alone_with_1_3_ada": {
+   "label": "sha256_len32: claim by a receiver holding exactly 1.3 ADA",
+   "tx_hash": "92227ff228794e4306ea3a81a1dfee08058ab67dae667056ab59566669459363",
+   "size_bytes": 507,
+   "fee_lovelace": 192067,
+   "fee_ada": "0.192067",
+   "ex_units": {
+    "mem": 48873,
+    "steps": 16808405
+   },
+   "fee_breakdown_lovelace": {
+    "size_part": 22308,
+    "constant": 155381,
+    "execution": 4032,
+    "reference_script": 10170,
+    "recomputed_min_fee": 191891,
+    "paid_above_min": 176
+   },
+   "inputs": 1,
+   "reference_inputs": 1,
+   "reference_script_bytes": 678,
+   "witness_script_bytes": 0,
+   "vkey_witnesses": 1,
+   "required_signers": 1,
+   "validity": {
+    "from_slot": null,
+    "to_slot": 138856386
+   },
+   "collateral": {
+    "inputs": 1,
+    "input_lovelace": 1300000,
+    "return_lovelace": 1000000,
+    "total_collateral_lovelace": 300000,
+    "required_150pct_of_fee_lovelace": 288101
+   },
+   "outputs": [
+    {
+     "index": 0,
+     "address": "addr_test1qp0y34u6agn9pga0gyaskxyxye9962c5g68gwx7230kwrscju9d4l8dd248hqz3xudwvwpntg76mda9lu4azcx6ef2vsyljsl3",
+     "lovelace": 9807933,
+     "min_lovelace": 969750,
+     "bytes": 65,
+     "inline_datum": false,
+     "script_ref": false
+    }
+   ],
+   "checks": {
+    "fee_covers_recomputed_min_fee": true,
+    "value_conserved": true,
+    "outputs_meet_min_utxo": true,
+    "within_max_tx_size": true,
+    "within_max_ex_units": true,
+    "vkey_witnesses_verify_noble": true,
+    "collateral_covers_requirement": true
+   },
+   "all_checks_pass": true,
+   "real_node_ex_units": {
+    "mem": 48873,
+    "steps": 16808405,
+    "source": "Ogmios evaluateTransaction via https://preprod.koios.rest/api/v1/ogmios",
+    "matches_declared": true
+   },
+   "set_collateral_option": 300000,
+   "receiver_balance_before_lovelace": 1300000,
+   "receiver_balance_change_lovelace": 9807933
+  }
+ },
+ "plain_key": {
+  "network": "emulator",
+  "joint_address": "addr_test1vq0sksfxzlye8z7rf94kqvmkapsd2hz2jvc4gt8w5wg3gas0l730j",
+  "joint_key_hash_blake2b224": "1f0b412617c9938bc3496b603376e860d55c4a9331542ceea3911476",
+  "point_a": "4a24daaca6ca72e8ae52c168549bcf2fcfc75a3a13845b74cab5b0e449c9ffb0",
+  "point_b": "842de0bb73363c9ea71842551a4d0a2bf5c747ce7b1edd66556566840a2ec62c",
+  "point_sum": "eff2164e6ea9b1e5555e7572e2d8186634444c1f3dddb7afb6f1f04f064ecd9b",
+  "fund": {
+   "label": "plain-key fund (1 input, 2 outputs, 1 vkey witness)",
+   "tx_hash": "1f3cd443ea18af8620ce31e69c66f07667c456a6594f45478a70b7e415921e05",
+   "size_bytes": 262,
+   "fee_lovelace": 167085,
+   "fee_ada": "0.167085",
+   "ex_units": null,
+   "fee_breakdown_lovelace": {
+    "size_part": 11528,
+    "constant": 155381,
+    "execution": 0,
+    "reference_script": 0,
+    "recomputed_min_fee": 166909,
+    "paid_above_min": 176
+   },
+   "inputs": 1,
+   "reference_inputs": 0,
+   "reference_script_bytes": 0,
+   "witness_script_bytes": 0,
+   "vkey_witnesses": 1,
+   "required_signers": 0,
+   "validity": {
+    "from_slot": null,
+    "to_slot": null
+   },
+   "collateral": null,
+   "outputs": [
+    {
+     "index": 0,
+     "address": "addr_test1vq0sksfxzlye8z7rf94kqvmkapsd2hz2jvc4gt8w5wg3gas0l730j",
+     "lovelace": 5000000,
+     "min_lovelace": 849070,
+     "bytes": 37,
+     "inline_datum": false,
+     "script_ref": false
+    },
+    {
+     "index": 1,
+     "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+     "lovelace": 768647081,
+     "min_lovelace": 969750,
+     "bytes": 65,
+     "inline_datum": false,
+     "script_ref": false
+    }
+   ],
+   "checks": {
+    "fee_covers_recomputed_min_fee": true,
+    "value_conserved": true,
+    "outputs_meet_min_utxo": true,
+    "within_max_tx_size": true,
+    "within_max_ex_units": true,
+    "vkey_witnesses_verify_noble": true,
+    "collateral_covers_requirement": true
+   },
+   "all_checks_pass": true
+  },
+  "rejected_witnesses": [
+   {
+    "what": "signature made from share a alone, presented under the summed key",
+    "rejected": true,
+    "error": "Invalid vkey witness. Key hash: 1f0b412617c9938bc3496b603376e860d55c4a9331542ceea3911476"
+   },
+   {
+    "what": "correct signature with one bit flipped",
+    "rejected": true,
+    "error": "Invalid vkey witness. Key hash: 1f0b412617c9938bc3496b603376e860d55c4a9331542ceea3911476"
+   },
+   {
+    "what": "valid signature by key A alone (a key that does not own the address)",
+    "rejected": true,
+    "error": "Missing vkey witness. Key hash: 1f0b412617c9938bc3496b603376e860d55c4a9331542ceea3911476"
+   }
+  ],
+  "network_checks_vkey_signatures": true,
+  "noble_verify": {
+   "summed_scalar_signature_valid": true,
+   "share_a_alone_valid": false,
+   "share_b_alone_valid": false
+  },
+  "sweep": {
+   "label": "plain-key sweep (1 input, 1 output, 1 vkey witness from the summed scalar)",
+   "tx_hash": "eb0dd3f79907849faa5d43431d9fe71f7c9d7a67a5ffc87cd6b4c3fc67e8a2c3",
+   "size_bytes": 225,
+   "fee_lovelace": 165457,
+   "fee_ada": "0.165457",
+   "ex_units": null,
+   "fee_breakdown_lovelace": {
+    "size_part": 9900,
+    "constant": 155381,
+    "execution": 0,
+    "reference_script": 0,
+    "recomputed_min_fee": 165281,
+    "paid_above_min": 176
+   },
+   "inputs": 1,
+   "reference_inputs": 0,
+   "reference_script_bytes": 0,
+   "witness_script_bytes": 0,
+   "vkey_witnesses": 1,
+   "required_signers": 0,
+   "validity": {
+    "from_slot": null,
+    "to_slot": null
+   },
+   "collateral": null,
+   "outputs": [
+    {
+     "index": 0,
+     "address": "addr_test1qp35rsxn460ecaythmg7j5l70hppny9uv8kevzk7zp4m2vwammw724qzwpf929h07my59z5zwn0vhe0whqf4p4p2lrdq7ddksr",
+     "lovelace": 4834543,
+     "min_lovelace": 969750,
+     "bytes": 65,
+     "inline_datum": false,
+     "script_ref": false
+    }
+   ],
+   "checks": {
+    "fee_covers_recomputed_min_fee": true,
+    "value_conserved": true,
+    "outputs_meet_min_utxo": true,
+    "within_max_tx_size": true,
+    "within_max_ex_units": true,
+    "vkey_witnesses_verify_noble": true,
+    "collateral_covers_requirement": true
+   },
+   "all_checks_pass": true
+  },
+  "sweep_tx": "eb0dd3f79907849faa5d43431d9fe71f7c9d7a67a5ffc87cd6b4c3fc67e8a2c3",
+  "joint_balance_after": 0,
+  "swept_lovelace": 4834543,
+  "min_utxo_at_joint_address": 849070
+ },
+ "table": [
+  {
+   "validator": "sha256",
+   "transaction": "lock",
+   "fee_ada": "0.172189",
+   "fee_lovelace": 172189,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 378,
+   "min_utxo_locked_ada": "1.349030",
+   "notes": "same transaction for both variants; no script runs"
+  },
+  {
+   "validator": "sha256",
+   "transaction": "claim, script attached",
+   "fee_ada": "0.209363",
+   "fee_lovelace": 209363,
+   "mem": 47261,
+   "cpu_steps": 16401923,
+   "size_bytes": 1134,
+   "min_utxo_locked_ada": null,
+   "notes": "script 663 bytes in the witness set"
+  },
+  {
+   "validator": "sha256",
+   "transaction": "refund, script attached",
+   "fee_ada": "0.207441",
+   "fee_lovelace": 207441,
+   "mem": 42941,
+   "cpu_steps": 14553625,
+   "size_bytes": 1099,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "sha256",
+   "transaction": "publish reference script (one-off)",
+   "fee_ada": "0.197929",
+   "fee_lovelace": 197929,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 963,
+   "min_utxo_locked_ada": null,
+   "notes": "deposit 3.870380 ADA held in the output carrying the script (recoverable by its owner)"
+  },
+  {
+   "validator": "sha256",
+   "transaction": "claim, reference script",
+   "fee_ada": "0.191675",
+   "fee_lovelace": 191675,
+   "mem": 47261,
+   "cpu_steps": 16401923,
+   "size_bytes": 507,
+   "min_utxo_locked_ada": null,
+   "notes": "includes 9900 lovelace reference-script fee"
+  },
+  {
+   "validator": "sha256",
+   "transaction": "refund, reference script",
+   "fee_ada": "0.189753",
+   "fee_lovelace": 189753,
+   "mem": 42941,
+   "cpu_steps": 14553625,
+   "size_bytes": 472,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "sha256_len32",
+   "transaction": "lock",
+   "fee_ada": "0.172189",
+   "fee_lovelace": 172189,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 378,
+   "min_utxo_locked_ada": "1.349030",
+   "notes": "same transaction for both variants; no script runs"
+  },
+  {
+   "validator": "sha256_len32",
+   "transaction": "claim, script attached",
+   "fee_ada": "0.210277",
+   "fee_lovelace": 210277,
+   "mem": 48873,
+   "cpu_steps": 16808405,
+   "size_bytes": 1152,
+   "min_utxo_locked_ada": null,
+   "notes": "script 681 bytes in the witness set"
+  },
+  {
+   "validator": "sha256_len32",
+   "transaction": "refund, script attached",
+   "fee_ada": "0.208233",
+   "fee_lovelace": 208233,
+   "mem": 42941,
+   "cpu_steps": 14553625,
+   "size_bytes": 1117,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "sha256_len32",
+   "transaction": "publish reference script (one-off)",
+   "fee_ada": "0.198721",
+   "fee_lovelace": 198721,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 981,
+   "min_utxo_locked_ada": null,
+   "notes": "deposit 3.947960 ADA held in the output carrying the script (recoverable by its owner)"
+  },
+  {
+   "validator": "sha256_len32",
+   "transaction": "claim, reference script",
+   "fee_ada": "0.192067",
+   "fee_lovelace": 192067,
+   "mem": 48873,
+   "cpu_steps": 16808405,
+   "size_bytes": 507,
+   "min_utxo_locked_ada": null,
+   "notes": "includes 10170 lovelace reference-script fee"
+  },
+  {
+   "validator": "sha256_len32",
+   "transaction": "refund, reference script",
+   "fee_ada": "0.190023",
+   "fee_lovelace": 190023,
+   "mem": 42941,
+   "cpu_steps": 14553625,
+   "size_bytes": 472,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "cs_blake2b",
+   "transaction": "lock",
+   "fee_ada": "0.172189",
+   "fee_lovelace": 172189,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 378,
+   "min_utxo_locked_ada": "1.349030",
+   "notes": "same transaction for both variants; no script runs"
+  },
+  {
+   "validator": "cs_blake2b",
+   "transaction": "claim, script attached",
+   "fee_ada": "0.212696",
+   "fee_lovelace": 212696,
+   "mem": 51357,
+   "cpu_steps": 17237392,
+   "size_bytes": 1203,
+   "min_utxo_locked_ada": null,
+   "notes": "script 732 bytes in the witness set"
+  },
+  {
+   "validator": "cs_blake2b",
+   "transaction": "refund, script attached",
+   "fee_ada": "0.210624",
+   "fee_lovelace": 210624,
+   "mem": 44973,
+   "cpu_steps": 14968000,
+   "size_bytes": 1168,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "cs_blake2b",
+   "transaction": "publish reference script (one-off)",
+   "fee_ada": "0.200965",
+   "fee_lovelace": 200965,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 1032,
+   "min_utxo_locked_ada": null,
+   "notes": "deposit 4.167770 ADA held in the output carrying the script (recoverable by its owner)"
+  },
+  {
+   "validator": "cs_blake2b",
+   "transaction": "claim, reference script",
+   "fee_ada": "0.193007",
+   "fee_lovelace": 193007,
+   "mem": 51357,
+   "cpu_steps": 17237392,
+   "size_bytes": 507,
+   "min_utxo_locked_ada": null,
+   "notes": "includes 10935 lovelace reference-script fee"
+  },
+  {
+   "validator": "cs_blake2b",
+   "transaction": "refund, reference script",
+   "fee_ada": "0.190935",
+   "fee_lovelace": 190935,
+   "mem": 44973,
+   "cpu_steps": 14968000,
+   "size_bytes": 472,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "cf_sha256",
+   "transaction": "lock",
+   "fee_ada": "0.167569",
+   "fee_lovelace": 167569,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 273,
+   "min_utxo_locked_ada": "0.896480",
+   "notes": "same transaction for both variants; no script runs"
+  },
+  {
+   "validator": "cf_sha256",
+   "transaction": "claim, script attached",
+   "fee_ada": "0.198013",
+   "fee_lovelace": 198013,
+   "mem": 22792,
+   "cpu_steps": 7322352,
+   "size_bytes": 923,
+   "min_utxo_locked_ada": null,
+   "notes": "script 493 bytes in the witness set"
+  },
+  {
+   "validator": "cf_sha256",
+   "transaction": "refund, script attached",
+   "fee_ada": "0.199290",
+   "fee_lovelace": 199290,
+   "mem": 35235,
+   "cpu_steps": 11426502,
+   "size_bytes": 929,
+   "min_utxo_locked_ada": null,
+   "notes": ""
+  },
+  {
+   "validator": "none (plain key)",
+   "transaction": "fund the summed-key address",
+   "fee_ada": "0.167085",
+   "fee_lovelace": 167085,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 262,
+   "min_utxo_locked_ada": "0.849070",
+   "notes": "plain transfer, 1 input, 2 outputs"
+  },
+  {
+   "validator": "none (plain key)",
+   "transaction": "sweep with the summed scalar",
+   "fee_ada": "0.165457",
+   "fee_lovelace": 165457,
+   "mem": null,
+   "cpu_steps": null,
+   "size_bytes": 225,
+   "min_utxo_locked_ada": null,
+   "notes": "plain transfer, 1 input, 1 output, the address pays its own fee"
+  }
+ ],
+ "summary": {
+  "validator": "sha256_len32",
+  "variant": "reference script",
+  "success_path": {
+   "locker_burns_lovelace": 172189,
+   "claimer_burns_lovelace": 192067,
+   "total_burned_lovelace": 364256,
+   "total_burned_ada": "0.364256"
+  },
+  "refund_path": {
+   "locker_burns_lovelace": 362212,
+   "locker_burns_ada": "0.362212",
+   "claimer_burns_lovelace": 0
+  },
+  "tied_up_not_burned": {
+   "locked_output_min_utxo_lovelace": 1349030,
+   "locked_output_min_utxo_note": "smallest amount the hash-locked output may hold; it is part of the swapped amount and goes to the claimer (or back to the locker), so it sets a minimum swap size rather than an extra cost",
+   "claim_collateral_required_lovelace": 288101,
+   "claim_collateral_lucid_default_lovelace": 5000000,
+   "claim_collateral_note": "an ADA-only UTxO of the fee payer is named as collateral; it is not spent unless the script fails on chain",
+   "reference_script_deposit_lovelace": 3947960,
+   "reference_script_publish_fee_lovelace_one_off": 198721
+  },
+  "script_attached_instead": {
+   "claim_fee_lovelace": 210277,
+   "refund_fee_lovelace": 208233
+  },
+  "plain_key": {
+   "fund_fee_lovelace": 167085,
+   "sweep_fee_lovelace": 165457,
+   "total_burned_ada": "0.332542",
+   "min_utxo_at_address_lovelace": 849070
+  }
+ },
+ "unexpected": [],
+ "verification": {
+  "emulator_checks_at_submit": [
+   "vkey witness signatures (Ed25519 over the body hash) - shown by the three rejected witnesses in plain_key.rejected_witnesses",
+   "every spent key address and every required signer has a vkey witness; no extraneous witnesses",
+   "inputs exist and are unspent; validity interval against the emulator slot",
+   "a script input has a script (witness or reference) and a redeemer; collateral present, ADA-only, >= collateral_percent of the fee"
+  ],
+  "emulator_does_not_check_at_submit": [
+   "Plutus script execution and the script-data hash (see emulator_probe: a claim with a wrong secret swapped in after signing was accepted)",
+   "that the fee covers the minimum fee, value conservation, min-UTxO of ordinary outputs, max tx size, ex-unit limits"
+  ],
+  "checked_by_this_script_instead": [
+   "script validity and ex-units: lucid's local evaluator (Aiken uplc, WASM) when the transaction is built, and for every script transaction the same signed bytes were evaluated by a real cardano-node (Ogmios evaluateTransaction via Koios preprod, emulator UTxOs passed as additionalUtxo); see real_node_ex_units on each transaction",
+   "fee >= recomputed minimum fee (size, constant, ex-unit prices, reference-script bytes), value conservation, min-UTxO of every output, size and ex-unit limits; see checks on each transaction",
+   "vkey witnesses re-verified with @noble/curves"
+  ],
+  "not_verified": [
+   "no transaction was submitted to a real network; phase-1 ledger rules as a node applies them (fee, reference-script fee tiering, script-data hash, collateral) are recomputed here, not enforced by a node",
+   "the real-node cross-check ran on preprod, whose Plutus cost models were compared with mainnet's and found identical; prices and fees were taken from mainnet parameters"
+  ]
+ },
+ "preprod_readiness": {
+  "address": "addr_test1qr0spqwm8k8hcqzfzpnjd9wx56mk3k8pexjs4tnzh5yagaykexh6dw9q64cfgy4wnzhfnnm5qy7g5sze2yguekh9paksz2cm55",
+  "balance_lovelace": "0",
+  "live_run_done": false,
+  "needs_lovelace": 100000000,
+  "command": "cd cardano && node measure.mjs --network preprod"
+ }
+}

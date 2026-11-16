@@ -1,0 +1,31 @@
+{
+ "seq": "0",
+ "amount": "12000000000",
+ "recipient_lock": {
+  "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+  "hash_type": "type",
+  "args": "0xc83eaeaa5fb5d31ea422e08641507397fd2459be"
+ },
+ "recipient_lock_hash": "0x7faa053b1db5bd749297d793e7454d5f78d7c04ac6882eabbb3994381ddec56f",
+ "message": "0x513a3b3f9df0f8cf45589e3fa30a6621d76b7801fd376c0188309c0ce8410d4f",
+ "signatures": [
+  {
+   "index": 0,
+   "pubkey": "0xa3d37940a7e6534b7cfceb8aacfb6e2f68d8812493985d06607a00c40129ef35",
+   "signature": "0x15fabab12f5591aca424cb9555e1910f4b5316e5b56d5825ed84ab597451fdf4d64790bcaa05e807295412826f106e94c14a228cffb48c65d75d3cf745f8e30b"
+  },
+  {
+   "index": 2,
+   "pubkey": "0xad3c7cf4ff4881c97e1c586bfa4c5c3090c4312f7c79b840e2425dfc159bd11d",
+   "signature": "0xcb7072b6500a364996f726067e92b196a6e0ec317ae57b7788e5b703fd8463d204b281f8b2d07e427c6913fe1ea7f34befcc592ea1ac1929795683416b7a590a"
+  }
+ ],
+ "solana": {
+  "program": "2KDCstdNVf3kW6CfvWEmYAk5KLG58z9JeXDhTG3XnbnS",
+  "config": "EwDcSX8QBCjxzQNKVagvzeEtrQDhrWAuwj3eVUXeyeMp",
+  "burn_record": "7uQhFvuEZbbefE14zDzBwYePbHt6KHA3Qvvo13zxkbqr",
+  "slot": "521011284",
+  "burner": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "commitment": "finalized"
+ }
+}

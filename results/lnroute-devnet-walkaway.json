@@ -1,0 +1,131 @@
+{
+ "sats": 10000,
+ "user_sol": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+ "steps": {
+  "secret": {
+   "t": "0.0",
+   "payment_hash": "79934bd1140e31ca79987fd7c42597ed96ccd811be8bcc44ff1f7a77d23c7391"
+  },
+  "balances_before": {
+   "t": "0.2",
+   "sol_lamports": 8368122960,
+   "fiber_wrapped_btc": [
+    {
+     "channel_id": "0x0104a5cdf8140b19147ae610a6e45529aed512a534d397a4f289dd0050060cd0",
+     "local": "159680",
+     "offered_tlc": "0"
+    },
+    {
+     "channel_id": "0xfc4743fabdf4757b6bad85380863fcc6ad9965bd14418a20393e66cebace5880",
+     "local": "200000",
+     "offered_tlc": "0"
+    }
+   ]
+  },
+  "lp_quote": {
+   "t": "0.3",
+   "lamports": 87500000,
+   "rate_sol_per_btc": 875,
+   "lp": "6pouueT4EnvsxEGy2jDMN9NzL78FppZKcbipssfzxS9X",
+   "escrow": "E8C5mdNHD44cHhbHcmqTBV5hkpqCjimY56W3wRt5UDbc",
+   "bolt11": "lnbcrt100u1p40fxsmpp50xf5h5g5pccu57vc0lt…"
+  },
+  "hub_order": {
+   "t": "0.3",
+   "payment_hash": "0x79934bd1140e31ca79987fd7c42597ed96ccd811be8bcc44ff1f7a77d23c7391",
+   "amount_sats": "0x2792",
+   "fee_sats": "0x82",
+   "status": "Pending"
+  },
+  "fiber_invoice": {
+   "t": "0.3",
+   "payment_hash": "79934bd1140e31ca79987fd7c42597ed96ccd811be8bcc44ff1f7a77d23c7391",
+   "amount": "10130"
+  },
+  "fiber_send_payment": {
+   "t": "0.3",
+   "status": "Created",
+   "fee": "0x0"
+  },
+  "sol_escrow_seen": {
+   "t": "3.4",
+   "amount": "87500000",
+   "claimer": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+   "expiry": 1794415282,
+   "secs_left": 148
+  },
+  "fiber_while_held": {
+   "t": "3.4",
+   "payment": "Inflight",
+   "channels": [
+    {
+     "channel_id": "0x0104a5cdf8140b19147ae610a6e45529aed512a534d397a4f289dd0050060cd0",
+     "local": "159680",
+     "offered_tlc": "0"
+    },
+    {
+     "channel_id": "0xfc4743fabdf4757b6bad85380863fcc6ad9965bd14418a20393e66cebace5880",
+     "local": "200000",
+     "offered_tlc": "10130"
+    }
+   ]
+  },
+  "walk_away": {
+   "t": "3.4",
+   "note": "not claiming; waiting for LP refund + cancel and Fiber fail-back"
+  },
+  "fiber_payment_final": {
+   "t": "154.8",
+   "status": "Failed",
+   "failed_error": "InvoiceCancelled"
+  },
+  "hub_order_final": {
+   "t": "154.8",
+   "status": "Failed"
+  },
+  "lp_swap_final": {
+   "t": "154.8",
+   "payment_hash": "79934bd1140e31ca79987fd7c42597ed96ccd811be8bcc44ff1f7a77d23c7391",
+   "sats": 10000,
+   "lamports": 87500000,
+   "claimer": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+   "bolt11": "lnbcrt100u1p40fxsmpp50xf5h5g5pccu57vc0ltugfvhaktvekq3h69uc38lraa8053uwwgsdp22d85cgrnwashqgpcxu6nqvpsxqczqmrpd4cx7un5wvcqzzsxqrcnssp527c20njwfhhqhvhlcpluy6850y3tamkdna8pkqdslpjlc5f39cus9qxpqysgqr7pfgau85d9g5m3pd84lnx08fq6gzesxzw7wumw2798jrryml9tr5jnmj8g7pfra6sds4rmchjnmfpn54xdug7990s6j2l9dj927uwsqzgmv25",
+   "created": 1794415131,
+   "quote_expires": 1794415731,
+   "escrow": "E8C5mdNHD44cHhbHcmqTBV5hkpqCjimY56W3wRt5UDbc",
+   "status": "refunded",
+   "ln": {
+    "amt_paid_msat": "10000000",
+    "htlcs": 1,
+    "expiry_height": 188,
+    "height_at_accept": 105
+   },
+   "sol_lock_tx": "4bnZG53Gahwz8qwMCbBH4BVSv5ufPhkhtMfxWhjwggnkex7gYLA4qkSzUmmqroXiL6eC4bB8kBstLJEidaxV7k3x",
+   "sol_expiry": 1794415282,
+   "sol_refund_tx": "5R86itJeFf1vL1TkJFMUBEFP4f7ZcqkZALUDuoGrP7qKWcD96jMjbVpgNNYM7zcoiKF7HbZffzpd6PmnH76dQG7L"
+  },
+  "balances_after": {
+   "t": "154.9",
+   "sol_lamports": 8368122960,
+   "sol_delta": 0,
+   "fiber_wrapped_btc": [
+    {
+     "channel_id": "0x0104a5cdf8140b19147ae610a6e45529aed512a534d397a4f289dd0050060cd0",
+     "local": "159680",
+     "offered_tlc": "0"
+    },
+    {
+     "channel_id": "0xfc4743fabdf4757b6bad85380863fcc6ad9965bd14418a20393e66cebace5880",
+     "local": "200000",
+     "offered_tlc": "0"
+    }
+   ]
+  }
+ },
+ "result": {
+  "claimed": false,
+  "fiber_status": "Failed",
+  "sol_delta_lamports": 0,
+  "elapsed_s": 154.864
+ }
+}

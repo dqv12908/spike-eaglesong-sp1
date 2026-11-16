@@ -1,0 +1,8 @@
+payer BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7 balance 9.00112728 SOL
+{
+  "programId": "3NYcyDELHRt1Jr7A8APqPjYqr9bUDTZdo7pq4dqsxX9m",
+  "signature": "85ZBBYaUHjYHApehXobDVyKMVAnqJahD9jNxTmwzmAntEcNkhyWS5rVPK7rNcUKQHH5urULqHH5fL3hQSDq4FBP"
+}
+  "signature": "31ugxoPQpShzVeqyYTfoJo1c2UAWEcT4tFwqCKxhjCzt92XrPze3CJUiMGWcjGJFPeU4c3HV87XQS1PhBowaqcw9"
+LP 6pouueT4EnvsxEGy2jDMN9NzL78FppZKcbipssfzxS9X balance 0.6 SOL
+payer balance after 8.20314796 SOL

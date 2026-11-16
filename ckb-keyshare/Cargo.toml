@@ -1,0 +1,36 @@
+[package]
+name = "keyshare-lock"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ckb-std = { version = "1.1", default-features = false, features = ["allocator", "dummy-atomic"] }
+blake2b-ref = "0.3"
+sha2 = { version = "0.10", default-features = false }
+curve25519-dalek = { version = "4.1", default-features = false, optional = true }
+k256 = { version = "0.13", default-features = false, features = ["arithmetic"], optional = true }
+
+[features]
+default = ["ed25519", "secp256k1"]
+# Curves compiled into the lock. A curve that is not compiled in is rejected with BadCurve.
+ed25519 = ["dep:curve25519-dalek"]
+secp256k1 = ["dep:k256"]
+# curve25519-dalek's radix-16 basepoint table (faster b*G, bigger binary).
+ed-tables = ["ed25519", "curve25519-dalek/precomputed-tables"]
+# Variable-time b*G for Ed25519. Safe here: the scalar is published in the witness anyway.
+ed-vartime = ["ed25519"]
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+overflow-checks = true
+strip = true
+
+# Same as release but optimised for speed (cycles) instead of size.
+[profile.speed]
+inherits = "release"
+opt-level = 3
+
+[workspace]

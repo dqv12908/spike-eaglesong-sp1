@@ -1,0 +1,5 @@
+fixture: fixtures/proofs/groth16-mainnet-n16.json (16 CKB Mainnet headers, 356-byte proof)
+program vkey: 0x004642eea66867e921a81ef4b5559f30860f0b6df86f701384769f6410dfbad5
+genuine proof      -> VERIFIED by SP1VerifierGateway
+estimated gas (incl. 21k base + calldata): 259079
+tampered pub value -> REVERTED (expected)

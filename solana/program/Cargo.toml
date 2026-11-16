@@ -1,0 +1,23 @@
+[package]
+name = "ckb-light-client"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Spike: CKB header light client on Solana, verifying SP1 v6 Groth16 proofs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+no-entrypoint = []
+
+[dependencies]
+solana-program = "5"
+solana-bn254 = "3"
+solana-sha256-hasher = { version = "3", features = ["sha2"] }
+
+[dev-dependencies]
+serde_json = "1"
+hex = "0.4"
+
+[workspace]

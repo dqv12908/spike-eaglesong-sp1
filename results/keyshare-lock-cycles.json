@@ -1,0 +1,420 @@
+{
+ "what": "Cycle cost of the key-share swap lock (ckb-keyshare) measured in CKB-VM via ckb-testtool",
+ "generated_utc": "2026-11-12T19:32:22Z",
+ "relay_cycle_limit_per_tx": 70000000,
+ "headline_variant": "both-z",
+ "fee_cap_shannons": 100000,
+ "min_cell_capacity_ckb_with_20_byte_args": 61.0,
+ "notes": [
+  "every path requires at least one output, every output under the committed lock hash, and sum(outputs) + fee_cap_shannons >= sum(all inputs)",
+  "cycles are the whole transaction: one share-lock input (script hash type data2), outputs under an always-success lock that is not executed",
+  "tx_bytes is the molecule-serialized Transaction (add 4 bytes for the size used in fee calculation); the witness carries the params blob",
+  "deploy_capacity_ckb = binary bytes + 61 (capacity field + default secp256k1 lock); add 65 for a Type ID type script",
+  "ed-tables = curve25519-dalek precomputed-tables; ed-vartime = variable-time base mult (vartime_double_scalar_mul_basepoint with a zero first scalar)",
+  "k256 precomputed-tables does not build for riscv64imac no_std: \"`precomputed-tables` feature requires either `critical-section` or `std`\" (k256-0.13.4 src/arithmetic/mul.rs:41); it builds its table lazily at run time, so it was not pursued",
+  "ckb-testtool runs scripts only: the lock's own since comparison is exercised, consensus-level since maturity is not"
+ ],
+ "toolchain": {
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+  "target": "riscv64imac-unknown-none-elf",
+  "rustflags": "-C target-feature=+zba,+zbb,+zbc,+zbs",
+  "host": "Linux 6.6.87.2-microsoft-standard-WSL2"
+ },
+ "crate_versions": {
+  "lock": {
+   "blake2b-ref": "0.3.1",
+   "buddy-alloc": "0.6.0",
+   "ckb-std": "1.1.0",
+   "crypto-bigint": "0.5.5",
+   "curve25519-dalek": "4.1.3",
+   "elliptic-curve": "0.13.8",
+   "k256": "0.13.4",
+   "sha2": "0.10.9",
+   "subtle": "2.6.1"
+  },
+  "tests": {
+   "blake2b-ref": "0.3.1",
+   "ckb-script": "1.2.1",
+   "ckb-testtool": "1.1.1",
+   "ckb-types": "1.1.4",
+   "ckb-vm": "0.24.15",
+   "curve25519-dalek": "4.1.3",
+   "ed25519-dalek": "2.2.0",
+   "secp256k1": "0.30.0",
+   "secp256k1-sys": "0.10.1",
+   "sha2": "0.10.9"
+  }
+ },
+ "commands": {
+  "all_variants": "cd ckb-keyshare && bash measure.sh   (inside WSL Ubuntu-24.04)",
+  "build_default": "cd ckb-keyshare && CARGO_TARGET_DIR=~/keyshare-target cargo build --release",
+  "test_default": "cd ckb-keyshare-tests && CARGO_TARGET_DIR=~/keyshare-tests-target cargo test -- --nocapture --test-threads=1",
+  "test_env": "KEYSHARE_BIN=<path to lock binary> KEYSHARE_VARIANT=<label>; build and test commands per variant are listed under variants[]"
+ },
+ "error_codes": {
+  "1": "Syscall",
+  "2": "BadArgs",
+  "3": "BadWitness",
+  "4": "BadTag",
+  "5": "ParamsMismatch",
+  "6": "BadCurve",
+  "7": "BadParamsLength",
+  "8": "WrongReleaseSecret",
+  "9": "ScalarZero",
+  "10": "ScalarNonCanonical",
+  "11": "ScalarMismatch",
+  "12": "WrongOutputLock",
+  "13": "SinceTypeMismatch",
+  "14": "RefundTooEarly",
+  "15": "PunishTooEarly",
+  "16": "NoOutputs",
+  "17": "FeeTooHigh"
+ },
+ "variants": [
+  {
+   "variant": "both-z",
+   "profile": "release",
+   "build_command": "cargo build --profile release",
+   "cycles": {
+    "ed25519": {
+     "claim": 2232165,
+     "refund": 2222828,
+     "punish": 54196
+    },
+    "secp256k1": {
+     "claim": 2442807,
+     "refund": 2434364,
+     "punish": 54148
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 106392,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.22s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 106453
+  },
+  {
+   "variant": "both-z-edtables",
+   "profile": "release",
+   "build_command": "cargo build --profile release --features ed-tables",
+   "cycles": {
+    "ed25519": {
+     "claim": 796909,
+     "refund": 787666,
+     "punish": 61726
+    },
+    "secp256k1": {
+     "claim": 2450381,
+     "refund": 2441938,
+     "punish": 61678
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 136512,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.43s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 136573
+  },
+  {
+   "variant": "both-z-edvartime",
+   "profile": "release",
+   "build_command": "cargo build --profile release --features ed-vartime",
+   "cycles": {
+    "ed25519": {
+     "claim": 1925603,
+     "refund": 1937082,
+     "punish": 54025
+    },
+    "secp256k1": {
+     "claim": 2424262,
+     "refund": 2415819,
+     "punish": 53977
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 105704,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.26s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 105765
+  },
+  {
+   "variant": "both-z-edtables-edvartime",
+   "profile": "release",
+   "build_command": "cargo build --profile release --features ed-tables,ed-vartime",
+   "cycles": {
+    "ed25519": {
+     "claim": 1735935,
+     "refund": 1731969,
+     "punish": 56127
+    },
+    "secp256k1": {
+     "claim": 2430334,
+     "refund": 2421891,
+     "punish": 56079
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 114112,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.39s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 114173
+  },
+  {
+   "variant": "both-o3",
+   "profile": "speed",
+   "build_command": "cargo build --profile speed",
+   "cycles": {
+    "ed25519": {
+     "claim": 1826728,
+     "refund": 1823213,
+     "punish": 49111
+    },
+    "secp256k1": {
+     "claim": 1750824,
+     "refund": 1748026,
+     "punish": 49063
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 118592,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.13s",
+   "opt_level": "3",
+   "deploy_capacity_ckb": 118653
+  },
+  {
+   "variant": "both-o3-edtables",
+   "profile": "speed",
+   "build_command": "cargo build --profile speed --features ed-tables",
+   "cycles": {
+    "ed25519": {
+     "claim": 618795,
+     "refund": 615374,
+     "punish": 56515
+    },
+    "secp256k1": {
+     "claim": 1758006,
+     "refund": 1755208,
+     "punish": 56467
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 148208,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.22s",
+   "opt_level": "3",
+   "deploy_capacity_ckb": 148269
+  },
+  {
+   "variant": "both-o3-edvartime",
+   "profile": "speed",
+   "build_command": "cargo build --profile speed --features ed-vartime",
+   "cycles": {
+    "ed25519": {
+     "claim": 1632408,
+     "refund": 1646613,
+     "punish": 48907
+    },
+    "secp256k1": {
+     "claim": 1749847,
+     "refund": 1747049,
+     "punish": 48859
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 117776,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.09s",
+   "opt_level": "3",
+   "deploy_capacity_ckb": 117837
+  },
+  {
+   "variant": "both-o3-edtables-edvartime",
+   "profile": "speed",
+   "build_command": "cargo build --profile speed --features ed-tables,ed-vartime",
+   "cycles": {
+    "ed25519": {
+     "claim": 1482552,
+     "refund": 1483480,
+     "punish": 51228
+    },
+    "secp256k1": {
+     "claim": 1751948,
+     "refund": 1749150,
+     "punish": 51180
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    },
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare  -- --nocapture --test-threads=1",
+   "binary_bytes": 127064,
+   "cargo_test_result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.14s",
+   "opt_level": "3",
+   "deploy_capacity_ckb": 127125
+  },
+  {
+   "variant": "ed25519-only-z",
+   "profile": "release",
+   "build_command": "cargo build --profile release --no-default-features --features ed25519",
+   "cycles": {
+    "ed25519": {
+     "claim": 2176697,
+     "refund": 2167362,
+     "punish": 36621
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    }
+   },
+   "test_command": "cargo test --test keyshare ed25519 -- --nocapture --test-threads=1",
+   "binary_bytes": 36096,
+   "cargo_test_result": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.35s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 36157
+  },
+  {
+   "variant": "ed25519-only-z-edtables",
+   "profile": "release",
+   "build_command": "cargo build --profile release --no-default-features --features ed-tables",
+   "cycles": {
+    "ed25519": {
+     "claim": 770630,
+     "refund": 761389,
+     "punish": 44123
+    }
+   },
+   "tx_bytes": {
+    "ed25519": {
+     "claim": 546,
+     "refund": 514,
+     "punish": 482
+    }
+   },
+   "test_command": "cargo test --test keyshare ed25519 -- --nocapture --test-threads=1",
+   "binary_bytes": 66104,
+   "cargo_test_result": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.32s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 66165
+  },
+  {
+   "variant": "secp256k1-only-z",
+   "profile": "release",
+   "build_command": "cargo build --profile release --no-default-features --features secp256k1",
+   "cycles": {
+    "secp256k1": {
+     "claim": 2425734,
+     "refund": 2417291,
+     "punish": 51264
+    }
+   },
+   "tx_bytes": {
+    "secp256k1": {
+     "claim": 548,
+     "refund": 516,
+     "punish": 484
+    }
+   },
+   "test_command": "cargo test --test keyshare secp256k1 -- --nocapture --test-threads=1",
+   "binary_bytes": 94856,
+   "cargo_test_result": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.59s",
+   "opt_level": "z",
+   "deploy_capacity_ckb": 94917
+  }
+ ]
+}

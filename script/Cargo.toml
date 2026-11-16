@@ -1,0 +1,20 @@
+[package]
+name = "ckb-pow-script"
+version = "0.1.0"
+edition = "2021"
+default-run = "ckb-pow-script"
+
+[[bin]]
+name = "ckb-pow-script"
+path = "src/bin/main.rs"
+
+[dependencies]
+# native-gnark: Groth16/PLONK wrapping via a local Go build of gnark (no Docker needed)
+sp1-sdk = { version = "6.0.1", features = ["blocking", "native-gnark"] }
+ckb-pow = { path = "../ckb-pow", features = ["rpc"] }
+serde_json = "1"
+clap = { version = "4.0", features = ["derive"] }
+hex = "0.4.3"
+
+[build-dependencies]
+sp1-build = { version = "6.0.1" }

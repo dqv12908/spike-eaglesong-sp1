@@ -1,0 +1,122 @@
+{
+  "rpc": "https://api.devnet.solana.com",
+  "program": "5YCcYWzvnsSJtP2NVgFrdiSkHaxjGd7DvTVrGf4LFN1R",
+  "payer": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "ckb_deposit_tx": "0x500e7ec655a95c18f1753ffc7a4f3ca441b1e3702a6e73b80411f303c273d324",
+  "steps": {
+    "tx_create_init_state": {
+      "sig": "3VGbK6XVbK5KwSy8chvVkCFLBMB1WLq9CEkojaqppBFEZAZi9bzYBg1mW8R1z4shC5iRP9J3HBJFmVoeANRAQaC2",
+      "cu": 1833,
+      "fee_lamports": 10000,
+      "size": 398,
+      "logs": [
+        "Program log: ckb-lc init: anchor #23025696 0x33a9f8d235c9672f… pow 1"
+      ]
+    },
+    "tx_create_mint_and_bridge": {
+      "sig": "49vgTteV2HfxXwjtVxySV91JMDyGuNpqSFqPE4Zae6UPQ1kwbtziPc8dpGNMY2T42dbC2gYKrFqwifkmuJgoFgyi",
+      "cu": 5432,
+      "fee_lamports": 15000,
+      "size": 655,
+      "logs": [
+        "Program log: bridge init: lock 0xa266ef5c1f2c494a… confirmations 12"
+      ]
+    },
+    "tx_create_recipient_ata": {
+      "sig": "3Lveuv9HFVEsaB6UjWQzsrrgbyCHCyuFryfZZoDjQgrV5uJ7iR7qZ9J63DvHX552M1ahP9Leo1HVTC5uKj2GkHXv",
+      "cu": 13417,
+      "fee_lamports": 5000,
+      "size": 304,
+      "logs": [
+        "Program log: CreateIdempotent",
+        "Program log: Initialize the associated token account"
+      ]
+    },
+    "sim_mint_before_segment": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 9
+          }
+        ]
+      },
+      "cu": 100782,
+      "logs": [
+        "Program log: anchor #23025712 0x9df466baf90ba786… is not a recent light-client tip"
+      ]
+    },
+    "sim_mint_tampered_recipient": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 4
+          }
+        ]
+      },
+      "cu": 100066,
+      "logs": [
+        "Program log: groth16 verify failed: PairingFailed"
+      ]
+    },
+    "tx_submit_segment": {
+      "sig": "43HtsXuFuuxxyRyoJB24TbNs2Vy5Xdxy1Hs5J4MTn7GYtxwB88hSERyNQEUX5m6vE1vk7q4CMNGKwbZYLoTgiUPo",
+      "cu": 98132,
+      "fee_lamports": 5000,
+      "size": 716,
+      "logs": [
+        "Program log: ckb-lc tip -> #23025712 0x9df466baf90ba786… (+16 headers, update 1)"
+      ]
+    },
+    "sim_mint_wrong_token_account": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 14
+          }
+        ]
+      },
+      "cu": 99724,
+      "logs": []
+    },
+    "tx_mint_deposit": {
+      "sig": "49AWSn6gQ4x4vRXMdibtKLYP2NXB6BpZamJQWZ6Qp3QJ3ZkU2N8bUagffNaVux4zYkuhQz9hRgkvrTAsCboi9jjF",
+      "cu": 108793,
+      "fee_lamports": 5000,
+      "size": 1028,
+      "logs": [
+        "Program log: minted 20000000000 (8 dp) for CKB tx 0x500e7ec655a95c18…:0 in #23025700 (12 confs) to BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7"
+      ]
+    },
+    "sim_mint_replay": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 15
+          }
+        ]
+      },
+      "cu": 101438,
+      "logs": []
+    },
+    "final": {
+      "tip_number": "23025712",
+      "tip_hash": "0x9df466baf90ba7868e800ca073a5fbeeccbfb5a9fe5ded9bfdf13e92f91ebfcf",
+      "pow_id": 1,
+      "updates": "1",
+      "recipient_balance": "20000000000",
+      "mint_supply": "20000000000",
+      "decimals": 8,
+      "bridge_total_minted": "20000000000"
+    }
+  },
+  "state_account": "2pBqFLgV3WdbAQ9VBbJKXapMsLfS3TPXaGM5gYC2Ugp5",
+  "config_account": "2MCSB46Z5VquKuJ97wi7S2JX8o1cT8w3Nu1j6wYMK2CH",
+  "mint": "E9R5HjSkZab8TfTTAw8hMDCwucgMjP4WG94gSqDEpgJg",
+  "mint_authority_pda": "5Ca59roCLu3qBMzKv9fMaMdAS6hsUVeyu1gj8ECD2crA",
+  "recipient_token_account": "4xNu8F66YnPZ8vD5Wqqas4dPAJ1LwXpPwfoLLukeMQD",
+  "nullifier_pda": "7Uaecq6j3GhZBi9CyAab7NjrQFPxGFxzKx5kcKhKU52C"
+}

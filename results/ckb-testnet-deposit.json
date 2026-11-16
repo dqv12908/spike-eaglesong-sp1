@@ -1,0 +1,10 @@
+{
+ "tx_hash": "0x500e7ec655a95c18f1753ffc7a4f3ca441b1e3702a6e73b80411f303c273d324",
+ "out_index": 0,
+ "capacity_shannons": "20000000000",
+ "custodian_wallet": "WALLET_2",
+ "deposit_lock_hash": "0xa266ef5c1f2c494a9505fb17ac3133aed1df55815babd78f278e54a00c854b46",
+ "recipient": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+ "recipient_hex": "0x9e7abfac2f0b40bd03d604e6a3da77c1e2bac535cb97c27f1306d205b8ca3442",
+ "block_number": 23025700
+}

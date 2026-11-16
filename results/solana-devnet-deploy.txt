@@ -1,0 +1,18 @@
+cluster: 4.4.0
+payer:   BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7  balance: 10 SOL
+Recover the intermediate account's ephemeral keypair file with
+solana program close BENac2vYuxrAnDChwu699aoMR8fHB7cwmLzCzf35ZwVt
+{
+  "programId": "8XjZL4HWtH7otxPjYFEi16MdAa2uWjpJmJuBbysFgPww",
+  "signature": "NkwJEpxrY4yUwFxnpBsAvQsdKrvi2FtbNT3kBWTRT6SxzsXVasH6959SELvrTPDSyfmTdGcUFGyehpjFZsoo3LU"
+}
+
+Program Id: 8XjZL4HWtH7otxPjYFEi16MdAa2uWjpJmJuBbysFgPww
+Owner: BPFLoaderUpgradeab1e11111111111111111111111
+ProgramData Address: AdhLba3r3kUJ3wzR5vDKhuj3L6xu4M8v2PQaah6Lxfu8
+Authority: BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7
+Last Deployed In Slot: 520845018
+Data Length: 38048 (0x94a0) bytes
+Balance: 0.19416268 SOL
+
+payer balance after: 9.8047942 SOL

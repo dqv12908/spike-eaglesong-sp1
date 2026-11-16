@@ -1,0 +1,16 @@
+[package]
+name = "keyshare-lock-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dev-dependencies]
+ckb-testtool = "1.1"
+blake2b-ref = "0.3"
+sha2 = "0.10"
+# Host-side reference implementations (independent of the lock's riscv build):
+curve25519-dalek = "4.1"
+ed25519-dalek = { version = "2.1", features = ["hazmat"] }
+secp256k1 = "0.30" # libsecp256k1 (C), not k256
+
+[workspace]

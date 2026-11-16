@@ -1,0 +1,36 @@
+### mainnet n=1
+summary matches native: OK
+total cycles: 58599
+cycles/header: 58599
+execute wall time: 30.712679ms
+report: gas: 66465
+### mainnet n=4
+summary matches native: OK
+total cycles: 204557
+cycles/header: 51139
+execute wall time: 18.116136ms
+report: gas: 209606
+### mainnet n=16
+summary matches native: OK
+total cycles: 788369
+cycles/header: 49273
+execute wall time: 27.461689ms
+report: gas: 782158
+### mainnet n=64
+summary matches native: OK
+total cycles: 3123617
+cycles/header: 48806
+execute wall time: 76.865181ms
+report: gas: 3072373
+### mainnet n=256
+summary matches native: OK
+total cycles: 12464448
+cycles/header: 48689
+execute wall time: 246.646347ms
+report: gas: 12233156
+### testnet (EaglesongBlake2b) n=16
+summary matches native: OK
+total cycles: 859601
+cycles/header: 53725
+report: gas: 848179
+### breakdown mainnet n=16 (cycle-tracker; totals inflated by extra work)

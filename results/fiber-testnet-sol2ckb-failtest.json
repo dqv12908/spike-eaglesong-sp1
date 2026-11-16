@@ -1,0 +1,95 @@
+{
+ "swap": {
+  "id": "eb9b568c2e16",
+  "direction": "sol2ckb",
+  "amount": "0.002",
+  "walk_away": true,
+  "state": "done",
+  "created": 1794416247154,
+  "steps": [
+   {
+    "key": "quote",
+    "title": "Quote from the LP",
+    "status": "done",
+    "detail": "0.002000000 SOL → 176.8470213 CKB (mid-market 177.5572503, LP spread 0.4%)",
+    "links": [],
+    "at": 28
+   },
+   {
+    "key": "invoice",
+    "title": "Your Fiber node issues an invoice (it keeps the secret)",
+    "status": "done",
+    "detail": "Invoice for 176.8470213 CKB, payment hash H = e51609ba1cfd3aa5ca3c395093a78eecd30c91df27184bd124387d9e3c0e93b5. Your node holds the secret and reveals it only when the CKB arrives.",
+    "links": [],
+    "at": 36
+   },
+   {
+    "key": "sol_lock",
+    "title": "You lock SOL in the Solana escrow",
+    "status": "done",
+    "detail": "0.002000000 SOL locked to H for the LP. It expires in 425 min, after the LP's Fiber payment can time out (400 min), so the CKB can't be taken and the SOL refunded too. If the payment fails, the LP cancels and the SOL returns at once.",
+    "links": [
+     {
+      "label": "Solana tx 4R8sbeW7…",
+      "url": "https://explorer.solana.com/tx/4R8sbeW7qmXGwmUGvexf9AojHRH6xgFywfxxqpF59p6Z4Qn5F6sGgpBCDjCPVcpJipVq4eKVtyxvFGacGfsb2GBd?cluster=devnet"
+     },
+     {
+      "label": "escrow account",
+      "url": "https://explorer.solana.com/address/DL485Rd5CqZHzD8RMLn1FY1Zw31o86P46WEimFFTGpc?cluster=devnet"
+     }
+    ],
+    "at": 815
+   },
+   {
+    "key": "fiber_pay",
+    "title": "LP pays the invoice over Fiber; your node reveals the secret",
+    "status": "refunded",
+    "detail": "Failure test: the invoice was withdrawn, so the LP's Fiber payment failed (InvoiceCancelled) and it canceled the escrow: your SOL is back.",
+    "links": [
+     {
+      "label": "Solana tx 5vQRta3k…",
+      "url": "https://explorer.solana.com/tx/5vQRta3kgcUYUecwoaCnHbgcVaAW1fn3CWTPD4EouX7pyKaMQdWGUdvvSKN72krbJbSw8EnCPL3Yhzx56wAfh6qx?cluster=devnet"
+     }
+    ],
+    "at": 10748
+   },
+   {
+    "key": "sol_claim",
+    "title": "LP claims the SOL with the secret",
+    "status": "skipped",
+    "detail": "Nothing to claim: the LP waived the escrow.",
+    "links": [],
+    "at": 10748
+   }
+  ],
+  "quote": {
+   "quote_id": "d770055ad5aae553",
+   "direction": "sol2ckb",
+   "lamports": 2000000,
+   "shannons": "17684702130",
+   "mid_shannons": "17755725030",
+   "spread_bps": 40,
+   "ckb_usd": 0.00095327,
+   "sol_usd": 84.63,
+   "price_source": "coingecko",
+   "expires": 1794416367
+  },
+  "payment_hash": "e51609ba1cfd3aa5ca3c395093a78eecd30c91df27184bd124387d9e3c0e93b5",
+  "result": {
+   "outcome": "refunded"
+  },
+  "elapsed_ms": 10748
+ },
+ "before": {
+  "sol": 8.321846067,
+  "ckb_can_send": 366.6411344,
+  "ckb_can_receive": 534.3588656,
+  "lp_sol": 0.419002693
+ },
+ "after": {
+  "sol": 8.321841067,
+  "ckb_can_send": 366.6411344,
+  "ckb_can_receive": 534.3588656,
+  "lp_sol": 0.418997693
+ }
+}

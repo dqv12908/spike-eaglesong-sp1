@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiber ⇄ Solana atomic swap</title>
+<style>
+  :root {
+    --bg: oklch(0.982 0.004 255);
+    --surface: oklch(1 0 0);
+    --ink: oklch(0.21 0.02 262);
+    --ink-2: oklch(0.41 0.02 262);
+    --ink-3: oklch(0.52 0.015 262);
+    --line: oklch(0.9 0.006 262);
+    --line-2: oklch(0.83 0.01 262);
+    --ckb: oklch(0.47 0.12 158);
+    --ckb-tint: oklch(0.955 0.03 158);
+    --sol: oklch(0.47 0.17 292);
+    --sol-tint: oklch(0.958 0.024 292);
+    --key: oklch(0.74 0.15 68);
+    --key-ink: oklch(0.42 0.1 62);
+    --key-tint: oklch(0.955 0.045 85);
+    --bad: oklch(0.5 0.18 27);
+    --bad-tint: oklch(0.96 0.025 27);
+    --sans: ui-sans-serif, "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --r: 10px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  code, .mono { font-family: var(--mono); font-size: 0.87em; }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px 72px; }
+
+  header.top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; padding: 26px 0 20px; }
+  header.top h1 { font-size: 1.45rem; font-weight: 680; letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
+  header.top p { margin: 0; color: var(--ink-2); flex: 1 1 320px; }
+  .nets { display: flex; gap: 8px; flex-wrap: wrap; }
+  .net { display: inline-flex; align-items: center; gap: 7px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 0.85rem; font-weight: 560; }
+  .net i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .net.ckb { color: var(--ckb); background: var(--ckb-tint); }
+  .net.sol { color: var(--sol); background: var(--sol-tint); }
+
+  .banner { display: none; margin: 0 0 16px; padding: 10px 14px; border-radius: var(--r); background: var(--bad-tint); color: var(--bad); border: 1px solid color-mix(in oklch, var(--bad) 30%, transparent); }
+  .banner.show { display: block; }
+
+  .cols { display: grid; grid-template-columns: minmax(300px, 372px) minmax(0, 1fr); gap: 28px; align-items: start; }
+  @media (max-width: 880px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+
+  /* --- swap form ------------------------------------------------------------- */
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; padding: 3px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+  .seg button { border: 0; background: none; padding: 8px 6px; border-radius: 7px; cursor: pointer; font-weight: 560; color: var(--ink-2); transition: background 160ms var(--ease), color 160ms var(--ease); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: white; }
+  .field { margin-top: 16px; }
+  .field label, .lbl { display: block; font-size: 0.85rem; font-weight: 560; color: var(--ink-2); margin-bottom: 6px; }
+  .amount { display: flex; align-items: center; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); transition: border-color 140ms; }
+  .amount:focus-within { border-color: var(--ink); }
+  .amount input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; padding: 11px 12px; font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .unit { padding: 0 14px 0 6px; font-weight: 640; }
+  .unit.ckb { color: var(--ckb); } .unit.sol { color: var(--sol); }
+  .get { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 11px 12px; border-radius: var(--r); background: var(--bg); border: 1px solid var(--line); }
+  .get b { font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .rate { margin: 8px 2px 0; font-size: 0.85rem; color: var(--ink-2); min-height: 2.6em; }
+  .rate .err { color: var(--bad); }
+  input.text { width: 100%; border: 1px solid var(--line-2); border-radius: var(--r); padding: 9px 11px; font-family: var(--mono); font-size: 0.82rem; background: var(--surface); }
+  input.text:focus { outline: 0; border-color: var(--ink); }
+  input.text::placeholder { color: var(--ink-3); }
+  .check { display: flex; gap: 10px; align-items: flex-start; margin-top: 16px; cursor: pointer; }
+  .check input { margin: 4px 0 0; width: 16px; height: 16px; accent-color: var(--key-ink); flex: none; }
+  .check span { font-size: 0.9rem; color: var(--ink-2); }
+  .check b { color: var(--ink); font-weight: 600; }
+  .go { width: 100%; margin-top: 18px; padding: 12px; border: 0; border-radius: var(--r); background: var(--ink); color: white; font-weight: 640; font-size: 1rem; cursor: pointer; transition: transform 120ms var(--ease), background 160ms; }
+  .go:hover:not(:disabled) { background: oklch(0.3 0.03 262); }
+  .go:active:not(:disabled) { transform: translateY(1px); }
+  .go:disabled { background: var(--line-2); color: var(--ink-2); cursor: not-allowed; }
+
+  /* --- balances -------------------------------------------------------------- */
+  .bal { margin-top: 22px; padding: 0 2px; }
+  .bal h2, .history h2, .trace-head h2 { font-size: 1rem; font-weight: 640; margin: 0 0 10px; }
+  .bal dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 7px 14px; }
+  .bal dt { color: var(--ink-2); } .bal dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 560; }
+  .bal .sub { grid-column: 1 / -1; margin: -2px 0 6px; }
+  .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--ckb); border-radius: 3px; transition: width 500ms var(--ease); }
+  .bal small { color: var(--ink-3); font-size: 0.82rem; }
+  .bal .rule { grid-column: 1 / -1; height: 1px; background: var(--line); margin: 6px 0; }
+
+  /* --- trace (live sequence diagram) ------------------------------------------ */
+  .trace-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 4px; }
+  .trace-head .h { color: var(--ink-2); font-size: 0.88rem; }
+  .result { display: none; margin: 10px 0 2px; padding: 10px 14px; border-radius: var(--r); font-weight: 560; }
+  .result.show { display: block; animation: rise 420ms var(--ease) both; }
+  .result.ok { background: var(--ckb-tint); color: oklch(0.34 0.09 158); }
+  .result.refund { background: var(--key-tint); color: var(--key-ink); }
+  .result.fail { background: var(--bad-tint); color: var(--bad); }
+  .lanes { display: grid; grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr); margin-top: 14px; position: relative; }
+  .lane-h { padding: 8px 12px; border-radius: 9px; font-weight: 620; font-size: 0.92rem; }
+  .lane-h small { display: block; font-weight: 450; opacity: 0.85; font-size: 0.82rem; }
+  .lane-h.ckb { background: var(--ckb-tint); color: var(--ckb); }
+  .lane-h.sol { background: var(--sol-tint); color: var(--sol); }
+  .spine-h { display: grid; place-items: center; }
+  .spine-h span { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--key-tint); color: var(--key-ink); font: 700 0.9rem var(--mono); border: 1px solid color-mix(in oklch, var(--key) 55%, transparent); }
+  .lanes::before { content: ""; position: absolute; left: 50%; top: 46px; bottom: 6px; width: 2px; margin-left: -1px; background: repeating-linear-gradient(to bottom, var(--key) 0 5px, transparent 5px 10px); opacity: 0.75; }
+  .row { display: contents; }
+  .cell { padding: 14px 0 0; min-width: 0; }
+  .dot { grid-column: 2; display: grid; place-items: center; align-content: start; padding-top: 22px; position: relative; }
+  .dot i { width: 14px; height: 14px; border-radius: 50%; background: var(--surface); border: 2px solid var(--line-2); position: relative; z-index: 1; transition: background 200ms, border-color 200ms; }
+  .dot::after { content: ""; position: absolute; top: 28px; height: 2px; width: 22px; background: var(--line-2); }
+  .row.left .dot::after { right: 50%; } .row.right .dot::after { left: 50%; } .row.mid .dot::after { display: none; }
+  .row[data-status="done"] .dot i { background: var(--ink); border-color: var(--ink); }
+  .row[data-status="active"] .dot i { border-color: var(--key); background: var(--key); animation: pulse 1.2s ease-in-out infinite; }
+  .row[data-status="refunded"] .dot i, .row[data-status="skipped"] .dot i { background: var(--key-tint); border-color: var(--key); }
+  .row[data-status="failed"] .dot i { background: var(--bad); border-color: var(--bad); }
+  .step { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); padding: 10px 12px; transition: border-color 240ms, opacity 240ms; }
+  .row.left .step { grid-column: 1; } .row.right .step { grid-column: 3; }
+  .row[data-status="pending"] .step { background: none; border-style: dashed; opacity: 0.72; }
+  .row[data-status="active"] .step { border-color: var(--key); }
+  .row[data-status="failed"] .step { border-color: var(--bad); }
+  .row.left[data-status="done"] .step { border-color: color-mix(in oklch, var(--ckb) 45%, var(--line)); }
+  .row.right[data-status="done"] .step { border-color: color-mix(in oklch, var(--sol) 45%, var(--line)); }
+  .row.fresh .step { animation: rise 420ms var(--ease) both; }
+  .step h3 { margin: 0; font-size: 0.93rem; font-weight: 620; display: flex; justify-content: space-between; gap: 10px; }
+  .step h3 time { font: 500 0.8rem var(--mono); color: var(--ink-3); white-space: nowrap; }
+  .step p { margin: 4px 0 0; font-size: 0.86rem; color: var(--ink-2); overflow-wrap: anywhere; }
+  .step p:empty { display: none; }
+  .step .links { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.84rem; }
+  .step .links:empty { display: none; }
+  .step code { background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 0 4px; white-space: nowrap; }
+  .row.mid .cell { grid-column: 1 / -1; display: grid; justify-items: center; padding-top: 14px; }
+  .row.mid .step { max-width: min(520px, 100%); text-align: center; position: relative; z-index: 1; border-color: color-mix(in oklch, var(--key) 45%, var(--line)); }
+  .row.mid[data-status="pending"] .step { background: var(--bg); opacity: 1; color: var(--ink-2); }
+  .row.mid .step h3 { justify-content: center; gap: 12px; }
+  .row.mid .dot { display: none; }
+  .tag { display: none; }
+
+  @media (max-width: 620px) {
+    .lanes { grid-template-columns: 1fr; }
+    .lanes::before, .dot, .lane-h, .spine-h { display: none; }
+    .row.left .step, .row.right .step { grid-column: 1; }
+    .cell:empty { display: none; }
+    .cell { padding-top: 10px; }
+    .tag { display: inline-block; font-size: 0.75rem; font-weight: 620; padding: 0 7px; border-radius: 999px; margin-bottom: 4px; }
+    .row.left .tag { background: var(--ckb-tint); color: var(--ckb); } .row.right .tag { background: var(--sol-tint); color: var(--sol); }
+    .row.mid .tag { display: none; }
+  }
+
+  .explain { margin-top: 14px; color: var(--ink-2); max-width: 68ch; }
+  .explain ol { padding-left: 1.2em; margin: 8px 0 0; } .explain li { margin: 5px 0; } .explain b { color: var(--ink); font-weight: 600; }
+
+  /* --- history ---------------------------------------------------------------- */
+  .history { margin-top: 40px; }
+  .history table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .history th { text-align: left; font-size: 0.84rem; font-weight: 560; color: var(--ink-2); padding: 6px 10px; border-bottom: 1px solid var(--line-2); }
+  .history td { padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  .history tbody tr { cursor: pointer; transition: background 120ms; }
+  .history tbody tr:hover, .history tbody tr[aria-selected="true"] { background: var(--surface); }
+  .history .empty td { color: var(--ink-2); cursor: default; }
+  .pill { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; }
+  .pill.ok { background: var(--ckb-tint); color: oklch(0.34 0.09 158); } .pill.refund { background: var(--key-tint); color: var(--key-ink); }
+  .pill.fail { background: var(--bad-tint); color: var(--bad); } .pill.run { background: var(--key); color: oklch(0.25 0.05 62); }
+  .history .scroll { overflow-x: auto; }
+  @media (max-width: 620px) { .history .hide-s { display: none; } .history th, .history td { padding: 8px 6px; font-size: 0.86rem; } }
+
+  @keyframes rise { from { opacity: 0.2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--key) 55%, transparent); } 50% { box-shadow: 0 0 0 7px transparent; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Fiber ⇄ Solana atomic swap</h1>
+    <p>CKB over a Fiber channel for native SOL, both legs locked to one SHA-256 hash. No bridge, no wrapped token.</p>
+    <div class="nets"><span class="net ckb"><i></i>CKB <span id="net-ckb">testnet</span></span><span class="net sol"><i></i>Solana <span id="net-sol">devnet</span></span></div>
+  </header>
+  <div class="banner" id="banner" role="alert"></div>
+
+  <div class="cols">
+    <div>
+      <form class="panel" id="form" autocomplete="off">
+        <div class="seg" role="group" aria-label="Direction">
+          <button type="button" data-dir="ckb2sol" aria-pressed="true">CKB → SOL</button>
+          <button type="button" data-dir="sol2ckb" aria-pressed="false">SOL → CKB</button>
+        </div>
+        <div class="field">
+          <label for="amount">You pay</label>
+          <div class="amount"><input id="amount" inputmode="decimal" value="300" aria-describedby="rate"><span class="unit ckb" id="unit-in">CKB</span></div>
+        </div>
+        <div class="field">
+          <span class="lbl">You receive, about</span>
+          <div class="get"><b id="out">…</b><span class="unit sol" id="unit-out">SOL</span></div>
+          <p class="rate" id="rate"></p>
+        </div>
+        <div class="field" id="rcpt-field">
+          <label for="rcpt">Solana recipient</label>
+          <input class="text" id="rcpt" spellcheck="false" placeholder="defaults to the demo wallet">
+        </div>
+        <label class="check"><input type="checkbox" id="walk"><span id="walk-label"></span></label>
+        <button class="go" id="go" type="submit">Swap</button>
+      </form>
+
+      <section class="bal" aria-label="Balances">
+        <h2>Your wallet</h2>
+        <dl>
+          <dt>Fiber channel, can send</dt><dd id="b-send">…</dd>
+          <dt>Fiber channel, can receive</dt><dd id="b-recv">…</dd>
+          <div class="sub"><div class="bar" aria-hidden="true"><i id="b-bar" style="width:0"></i></div><small id="b-chan"></small></div>
+          <dt>Solana wallet</dt><dd id="b-sol">…</dd>
+          <div class="rule"></div>
+          <dt>LP's SOL</dt><dd id="b-lpsol">…</dd>
+          <dt>LP price source</dt><dd id="b-px">…</dd>
+        </dl>
+      </section>
+    </div>
+
+    <section aria-label="Swap trace">
+      <div class="trace-head">
+        <h2 id="trace-title">How a swap runs</h2>
+        <span class="h" id="trace-hash"></span>
+      </div>
+      <div class="result" id="result" role="status"></div>
+      <div class="lanes" id="lanes"></div>
+      <div class="explain" id="explain"></div>
+    </section>
+  </div>
+
+  <section class="history">
+    <h2>Swaps</h2>
+    <div class="scroll"><table>
+      <thead><tr><th class="hide-s">When</th><th>Direction</th><th>Paid</th><th>Received</th><th>Outcome</th><th class="hide-s">Took</th></tr></thead>
+      <tbody id="hist"><tr class="empty"><td colspan="6">No swaps yet. Run one above.</td></tr></tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const api = async (path, body) => {
+  const r = await fetch(path, body ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : {});
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || r.statusText);
+  return j;
+};
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmtDetail = (s) => esc(s || "").replace(/\b[0-9a-f]{64}\b/g, (h) => `<code title="${h}">${h.slice(0, 10)}…${h.slice(-6)}</code>`);
+const num = (x, d) => Number(x).toLocaleString("en-US", { maximumFractionDigits: d });
+const ckb = (shannons) => num(Number(shannons) / 1e8, 2);
+const sol = (lamports) => num(Number(lamports) / 1e9, 6);
+
+// Which chain each step happens on. "mid" = in the wallet / with the LP, on neither chain.
+const LANE = {
+  ckb2sol: { quote: "mid", secret: "mid", fiber_lock: "left", sol_lock: "right", sol_claim: "right", fiber_settle: "left" },
+  sol2ckb: { quote: "mid", invoice: "left", sol_lock: "right", fiber_pay: "left", sol_claim: "right" },
+};
+const PLAN = {
+  ckb2sol: [
+    ["quote", "Quote from the LP", "Mid-market price minus one spread."],
+    ["secret", "Secret generated in your wallet", "Only its hash H is shared."],
+    ["fiber_lock", "CKB locked on Fiber", "A hold invoice on H: the LP can't take the CKB without the secret."],
+    ["sol_lock", "LP locks SOL in the escrow", "Locked to the same H, for your address, with a short expiry."],
+    ["sol_claim", "You claim the SOL", "The claim publishes the secret on Solana."],
+    ["fiber_settle", "LP settles Fiber with the secret", "The LP reads the secret from the claim and takes the CKB."],
+  ],
+  sol2ckb: [
+    ["quote", "Quote from the LP", "Mid-market price minus one spread."],
+    ["invoice", "Your Fiber node issues an invoice", "Its payment hash is H; your node keeps the secret."],
+    ["sol_lock", "You lock SOL in the escrow", "Locked to H for the LP, expiring after the Fiber payment can."],
+    ["fiber_pay", "LP pays the invoice over Fiber", "Your node takes the CKB by revealing the secret to the LP."],
+    ["sol_claim", "LP claims the SOL", "With the secret it just learned."],
+  ],
+};
+const EXPLAIN = {
+  ckb2sol: `<ol><li><b>If you never claim</b>, the escrow expires, the LP takes its SOL back and cancels the invoice. Your CKB returns in full.</li>
+    <li><b>If the LP never locks SOL</b>, there is nothing to claim and the secret is never revealed. Your CKB returns when the invoice is canceled or times out (capped at 6 h 40 min).</li>
+    <li><b>The LP can't take the CKB first</b>: settling the Fiber payment needs the secret, which only appears when you take the SOL.</li></ol>`,
+  sol2ckb: `<ol><li><b>If the LP's payment fails</b>, it cancels the escrow and your SOL returns at once.</li>
+    <li><b>If the LP never pays</b>, your SOL returns when the escrow expires (about 7 h, longer than the Fiber payment can stay open).</li>
+    <li><b>You can't take the CKB and keep the SOL</b>: taking the CKB hands the LP the secret, and the escrow outlives the Fiber payment.</li></ol>`,
+};
+
+let dir = "ckb2sol", current = null, selected = null, status = null, pollTimer = null, quoteTimer = null, lastQuote = null;
+const seen = new Set();
+
+function setDir(d) {
+  dir = d;
+  document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.dir === d)));
+  const f = d === "ckb2sol";
+  $("unit-in").textContent = f ? "CKB" : "SOL"; $("unit-in").className = "unit " + (f ? "ckb" : "sol");
+  $("unit-out").textContent = f ? "SOL" : "CKB"; $("unit-out").className = "unit " + (f ? "sol" : "ckb");
+  $("rcpt-field").style.display = f ? "" : "none";
+  $("amount").value = f ? "300" : "0.002";
+  $("walk-label").innerHTML = f
+    ? "<b>Test the refund path.</b> Don't claim the SOL; watch the LP refund and your CKB come back (takes about 3 min)."
+    : "<b>Test the refund path.</b> Withdraw the invoice after locking SOL; watch the LP cancel and your SOL come back.";
+  if (!current || current.state !== "running") { selected = null; renderTrace(null); }
+  quote();
+}
+
+async function quote() {
+  clearTimeout(quoteTimer);
+  const amt = Number($("amount").value);
+  if (!(amt > 0)) { $("out").textContent = "…"; $("rate").textContent = ""; return; }
+  try {
+    const q = await api(`/api/quote?direction=${dir}&amount=${amt}`);
+    lastQuote = q;
+    const f = dir === "ckb2sol";
+    $("out").textContent = f ? sol(q.lamports) : ckb(q.shannons);
+    const perSol = q.sol_usd / q.ckb_usd;
+    $("rate").innerHTML = `1 SOL ≈ ${num(perSol, 0)} CKB mid-market (${esc(q.price_source)}). You get ${(100 - q.spread_bps / 100).toFixed(1)}% of that: one LP spread of ${q.spread_bps / 100}%, no other fees but the Solana transaction fee.`;
+  } catch (e) {
+    $("out").textContent = "…";
+    $("rate").innerHTML = `<span class="err">${esc(e.message)}</span>`;
+  }
+  quoteTimer = setTimeout(quote, 20000);
+}
+
+async function refreshStatus() {
+  try {
+    status = await api("/api/status");
+    const b = $("banner");
+    if (status.errors.length) { b.textContent = status.errors.join(" · ") + " — start the Fiber nodes (scripts/fiber-testnet-up.sh) and lnroute/demo.sh."; b.classList.add("show"); }
+    else b.classList.remove("show");
+    $("net-ckb").textContent = status.ckb_net; $("net-sol").textContent = status.cluster;
+    if (status.channel) {
+      const s = Number(status.channel.can_send), r = Number(status.channel.can_receive);
+      $("b-send").textContent = ckb(s) + " CKB"; $("b-recv").textContent = ckb(r) + " CKB";
+      $("b-bar").style.width = s + r ? (100 * s / (s + r)).toFixed(1) + "%" : "0";
+      const f = status.channel.funding[0];
+      $("b-chan").innerHTML = status.channel.count ? `${status.channel.count} channel with the LP` + (f ? ` · <a href="${f.url}" target="_blank" rel="noopener">funding tx on CKB ${esc(status.ckb_net)}</a>` : "") : "no ready channel with the LP";
+    }
+    if (status.sol_lamports != null) $("b-sol").innerHTML = `<a href="https://explorer.solana.com/address/${status.wallet_sol}?cluster=${status.cluster}" target="_blank" rel="noopener">${sol(status.sol_lamports)} SOL</a>`;
+    if (status.lp) {
+      $("b-lpsol").textContent = sol(status.lp.liquidity.sol_lamports) + " SOL";
+      $("b-px").textContent = `${status.lp.prices.source}, ${status.lp.spread_bps / 100}% spread`;
+      $("rcpt").placeholder = status.wallet_sol;
+    }
+  } catch (e) {
+    $("banner").textContent = "Wallet backend unreachable: " + e.message; $("banner").classList.add("show");
+  }
+}
+
+function renderTrace(s) {
+  const d = s ? s.direction : dir, lanes = LANE[d];
+  const steps = s ? s.steps : PLAN[d].map(([key, title, detail]) => ({ key, title, detail, status: "pending", links: [] }));
+  $("trace-title").textContent = s ? (s.state === "running" ? "Swap in progress" : "Swap " + s.id) : "How a swap runs";
+  $("trace-hash").innerHTML = s && s.payment_hash ? `H = <code title="${s.payment_hash}">${s.payment_hash.slice(0, 16)}…</code>` : s ? "" : (d === "ckb2sol" ? "CKB → SOL" : "SOL → CKB");
+  const head = `<div class="lane-h ckb">CKB · Fiber<small>${esc(status?.ckb_net ?? "testnet")} channel</small></div><div class="spine-h"><span title="Payment hash H: every lock on both chains opens with the same secret">H</span></div><div class="lane-h sol">Solana<small>${esc(status?.cluster ?? "devnet")} HTLC escrow</small></div>`;
+  $("lanes").innerHTML = head + steps.map((st) => {
+    const lane = lanes[st.key] ?? "mid", id = `${s?.id}:${st.key}:${st.status}`;
+    const fresh = s && st.status !== "pending" && !seen.has(id);
+    if (s) seen.add(id);
+    const body = `<div class="step"><span class="tag">${lane === "left" ? "CKB · Fiber" : "Solana"}</span><h3><span>${esc(st.title)}</span>${st.at != null && st.status !== "pending" ? `<time>${(st.at / 1000).toFixed(1)} s</time>` : ""}</h3><p>${fmtDetail(st.detail)}</p><div class="links">${(st.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div></div>`;
+    if (lane === "mid") return `<div class="row mid${fresh ? " fresh" : ""}" data-status="${st.status}"><div class="cell">${body}</div></div>`;
+    return `<div class="row ${lane}${fresh ? " fresh" : ""}" data-status="${st.status}">${lane === "left" ? `<div class="cell">${body}</div>` : `<div class="cell"></div>`}<div class="dot"><i></i></div>${lane === "right" ? `<div class="cell">${body}</div>` : `<div class="cell"></div>`}</div>`;
+  }).join("");
+  const r = $("result");
+  r.className = "result";
+  if (s && s.state !== "running") {
+    const t = s.elapsed_ms ? ` in ${(s.elapsed_ms / 1000).toFixed(1)} s` : "";
+    if (s.state === "done" && s.result?.outcome === "swapped") { r.classList.add("show", "ok"); r.textContent = d === "ckb2sol" ? `Swapped ${s.result.ckb} CKB for ${s.result.sol} SOL${t}.` : `Swapped ${s.result.sol} SOL for ${s.result.ckb} CKB${t}.`; }
+    else if (s.state === "done") { r.classList.add("show", "refund"); r.textContent = `Refund path completed${t}: nothing changed hands, both sides have their funds back.`; }
+    else { r.classList.add("show", "fail"); r.textContent = `Swap stopped: ${s.error || s.state}`; }
+  }
+  $("explain").innerHTML = s ? "" : EXPLAIN[d];
+}
+
+function renderHistory(list) {
+  if (!list.length) return;
+  $("hist").innerHTML = list.map((s) => {
+    const f = s.direction === "ckb2sol", q = s.quote;
+    const paid = q ? (f ? ckb(q.shannons) + " CKB" : sol(q.lamports) + " SOL") : s.amount + (f ? " CKB" : " SOL");
+    const got = s.result?.outcome === "swapped" ? (f ? s.result.sol + " SOL" : s.result.ckb + " CKB") : "—";
+    const pill = s.state === "running" ? ["run", "running"] : s.state === "done" ? (s.result?.outcome === "swapped" ? ["ok", "swapped"] : ["refund", "refunded"]) : ["fail", s.state];
+    return `<tr data-id="${s.id}" tabindex="0" aria-selected="${selected === s.id}"><td class="hide-s">${new Date(s.created).toLocaleTimeString()}</td><td>${f ? "CKB → SOL" : "SOL → CKB"}</td><td>${paid}</td><td>${got}</td><td><span class="pill ${pill[0]}">${esc(pill[1])}</span></td><td class="hide-s">${s.elapsed_ms ? (s.elapsed_ms / 1000).toFixed(1) + " s" : ""}</td></tr>`;
+  }).join("");
+}
+async function refreshHistory() {
+  try {
+    const list = await api("/api/swaps");
+    renderHistory(list);
+    const running = list.find((s) => s.state === "running");
+    if (running && (!current || current.id !== running.id)) { current = running; selected = running.id; watch(); }
+    return list;
+  } catch { return []; }
+}
+
+async function watch() {
+  clearTimeout(pollTimer);
+  try {
+    current = await api(`/api/swap/${current.id}`);
+    if (selected === current.id) renderTrace(current);
+    $("go").disabled = current.state === "running";
+    $("go").textContent = current.state === "running" ? "Swap running…" : "Swap";
+    if (current.state === "running") pollTimer = setTimeout(watch, 400);
+    else { refreshStatus(); refreshHistory(); }
+  } catch { pollTimer = setTimeout(watch, 1500); }
+}
+
+document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => setDir(b.dataset.dir)));
+$("amount").addEventListener("input", () => { clearTimeout(quoteTimer); quoteTimer = setTimeout(quote, 250); });
+$("form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  $("go").disabled = true;
+  try {
+    current = await api("/api/swap", { direction: dir, amount: $("amount").value, recipient: $("rcpt").value.trim() || undefined, walk_away: $("walk").checked });
+    selected = current.id;
+    renderTrace(current);
+    watch();
+    refreshHistory();
+  } catch (e) {
+    $("go").disabled = false;
+    const r = $("result"); r.className = "result show fail"; r.textContent = e.message;
+  }
+});
+$("hist").addEventListener("click", async (ev) => {
+  const tr = ev.target.closest("tr[data-id]");
+  if (!tr) return;
+  selected = tr.dataset.id;
+  const s = await api(`/api/swap/${selected}`);
+  s.steps.forEach((st) => seen.add(`${s.id}:${st.key}:${st.status}`));
+  renderTrace(s);
+  document.querySelectorAll("#hist tr").forEach((r) => r.setAttribute("aria-selected", String(r.dataset.id === selected)));
+  document.querySelector(".trace-head").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+$("hist").addEventListener("keydown", (ev) => { if (ev.key === "Enter") ev.target.click(); });
+
+setDir("ckb2sol");
+refreshStatus().then(() => { renderTrace(null); });
+refreshHistory();
+setInterval(refreshStatus, 6000);
+</script>
+</body>
+</html>

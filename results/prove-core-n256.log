@@ -1,0 +1,29 @@
+### system=core n=256 2026-11-10T18:21:45Z
+net=Mainnet n=256 headers (53248 bytes)
+setup: 3.016890367s
+program vkey: 0x004642eea66867e921a81ef4b5559f30860f0b6df86f701384769f6410dfbad5
+system=Core n=256 prove=181.69742889s verify=130.224645ms
+	Command being timed: "/root/spike-target/release/ckb-pow-script --prove --system core --n 256"
+	User time (seconds): 1407.09
+	System time (seconds): 141.48
+	Percent of CPU this job got: 653%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:57.11
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 38920904
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 31234879
+	Voluntary context switches: 712336
+	Involuntary context switches: 1489823
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+exit=0

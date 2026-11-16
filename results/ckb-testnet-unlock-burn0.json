@@ -1,0 +1,10 @@
+{
+ "burn_seq": 0,
+ "unlock_tx": "0x44e5ba4a604a5f5c9d3fbcaec1803dd853b084a2b30013960b232e33f39c6bde",
+ "block": 23026681,
+ "amount_shannons": "12000000000",
+ "recipient_lock_hash": "0x7faa053b1db5bd749297d793e7454d5f78d7c04ac6882eabbb3994381ddec56f",
+ "custody_inputs": 2,
+ "vault_out_shannons": "48000000000",
+ "relayer": "WALLET_1"
+}

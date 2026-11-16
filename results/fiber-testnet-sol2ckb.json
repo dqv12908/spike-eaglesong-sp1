@@ -1,0 +1,97 @@
+{
+ "swap": {
+  "id": "37c5380a07eb",
+  "direction": "sol2ckb",
+  "amount": "0.003",
+  "walk_away": false,
+  "state": "done",
+  "created": 1794416130954,
+  "steps": [
+   {
+    "key": "quote",
+    "title": "Quote from the LP",
+    "status": "done",
+    "detail": "0.003000000 SOL → 265.6411344 CKB (mid-market 266.70796627, LP spread 0.4%)",
+    "links": [],
+    "at": 19
+   },
+   {
+    "key": "invoice",
+    "title": "Your Fiber node issues an invoice (it keeps the secret)",
+    "status": "done",
+    "detail": "Invoice for 265.6411344 CKB, payment hash H = cd05ce5e239e63dc54df88f91615886cd666cb7b247752bed5d03f0a5589904e. Your node holds the secret and reveals it only when the CKB arrives.",
+    "links": [],
+    "at": 28
+   },
+   {
+    "key": "sol_lock",
+    "title": "You lock SOL in the Solana escrow",
+    "status": "done",
+    "detail": "0.003000000 SOL locked to H for the LP. It expires in 185 min, after the Fiber payment's own 160 min timeout, so the CKB can't be taken and the SOL refunded too.",
+    "links": [
+     {
+      "label": "Solana tx GoS1VJqq…",
+      "url": "https://explorer.solana.com/tx/GoS1VJqqSyUwzxcoSHebX7HojHtJb3c1dt2jt4CGJ2XzjPU47sdpjqyc16qekRoRyp6vnhZWrBRuEWm3CjXhJM3?cluster=devnet"
+     },
+     {
+      "label": "escrow account",
+      "url": "https://explorer.solana.com/address/94aP4HvJc27S2jLFQGxszawoHirDpBa9hrTsYcJ5Ffma?cluster=devnet"
+     }
+    ],
+    "at": 775
+   },
+   {
+    "key": "fiber_pay",
+    "title": "LP pays the invoice over Fiber; your node reveals the secret",
+    "status": "done",
+    "detail": "Received 265.6411344 CKB on Fiber (invoice Paid).",
+    "links": [],
+    "at": 5043
+   },
+   {
+    "key": "sol_claim",
+    "title": "LP claims the SOL with the secret",
+    "status": "done",
+    "detail": "The LP claimed the SOL using the secret your node revealed: 7e9787a4e5489d2395d4cd6351c623219380efc768d50b71ca650dd7134fc3f9",
+    "links": [
+     {
+      "label": "Solana tx 2obBou1C…",
+      "url": "https://explorer.solana.com/tx/2obBou1CdrtcPVDKyqfz5NC4kGcyymC5JW2AcrdKMc3K2XgSX8ApePJLHG6gYhaTaEAdxQedo5UEVtNt3N222Ce1?cluster=devnet"
+     }
+    ],
+    "at": 5044
+   }
+  ],
+  "quote": {
+   "quote_id": "6aa2b022dfabd118",
+   "direction": "sol2ckb",
+   "lamports": 3000000,
+   "shannons": "26564113440",
+   "mid_shannons": "26670796627",
+   "spread_bps": 40,
+   "ckb_usd": 0.00095239,
+   "sol_usd": 84.67,
+   "price_source": "coingecko",
+   "expires": 1794416250
+  },
+  "payment_hash": "cd05ce5e239e63dc54df88f91615886cd666cb7b247752bed5d03f0a5589904e",
+  "result": {
+   "outcome": "swapped",
+   "ckb": "265.6411344",
+   "sol": 0.003
+  },
+  "elapsed_ms": 5044
+ },
+ "before": {
+  "sol": 8.321490392,
+  "ckb_can_send": 401,
+  "ckb_can_receive": 500,
+  "lp_sol": 0.419378368
+ },
+ "after": {
+  "sol": 8.318485392,
+  "ckb_can_send": 666.6411344,
+  "ckb_can_receive": 234.3588656,
+  "lp_sol": 0.422373368
+ }
+}

@@ -1,0 +1,7 @@
+LP 6pouueT4EnvsxEGy2jDMN9NzL78FppZKcbipssfzxS9X on :7070, rate 875 SOL/BTC, program 3NYcyDELHRt1Jr7A8APqPjYqr9bUDTZdo7pq4dqsxX9m
+[16:38:37] 0324ee4f quote 20000 sat -> 175000000 lamports for BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7
+[16:38:40] 0324ee4f BTC HTLC held (20000000 msat, 83 blocks left) -> locked 175000000 lamports, expiry 1794415268: 4tEWEZnCX9FTHXAk8KJbFefndhQoXT1EVGeuUFeDxMGWEamkGCn7MeC8eE4Cf8AiEd4XncpQ7tb1GXbLHYNs9KwB
+[16:38:43] 0324ee4f SOL claimed (5SM2KeCFEGCdvGVXhfbhUXAR7s64vBfcYNDy4thZ1GZs2DPxWA4oZAkfsr6aHSgLYXpQY9hs4o23NcUj4RgoNMrW) -> preimage learned -> hold invoice settled
+[16:38:51] 79934bd1 quote 10000 sat -> 87500000 lamports for BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7
+[16:38:54] 79934bd1 BTC HTLC held (10000000 msat, 83 blocks left) -> locked 87500000 lamports, expiry 1794415282: 4bnZG53Gahwz8qwMCbBH4BVSv5ufPhkhtMfxWhjwggnkex7gYLA4qkSzUmmqroXiL6eC4bB8kBstLJEidaxV7k3x
+[16:41:25] 79934bd1 SOL unclaimed at expiry -> refunded (5R86itJeFf1vL1TkJFMUBEFP4f7ZcqkZALUDuoGrP7qKWcD96jMjbVpgNNYM7zcoiKF7HbZffzpd6PmnH76dQG7L) and hold invoice canceled

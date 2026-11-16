@@ -1,0 +1,15 @@
+# solana program deploy ckb_bridge_v3.so to devnet (stderr banner removed)
+{
+  "programId": "2KDCstdNVf3kW6CfvWEmYAk5KLG58z9JeXDhTG3XnbnS",
+  "signature": "4eYyYSxSY3SNVPymQHP1VyrToHgdrVUtZV7xNoTMP62ZhyDMNs4cdcarsoHaoJjPVvzTNaAsbUuUVUZTRpSjssYe"
+}
+
+Program Id: 2KDCstdNVf3kW6CfvWEmYAk5KLG58z9JeXDhTG3XnbnS
+Owner: BPFLoaderUpgradeab1e11111111111111111111111
+ProgramData Address: H1z5xghGnhmM3a2eFFYgeYbFWqhiaNDYKfkA1cNtYPcm
+Authority: BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7
+Last Deployed In Slot: 521011122
+Data Length: 82352 (0x141b0) bytes
+Balance: 0.419227 SOL
+
+payer balance after: 9.01470032 SOL

@@ -1,0 +1,10 @@
+target/
+target-win/
+.downloads/
+node_modules/
+solana/deploy/*keypair*.json
+*.env
+.env*
+
+# testnet demo attester keys (custody committee)
+*.local.json

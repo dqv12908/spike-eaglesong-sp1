@@ -1,0 +1,7 @@
+[workspace]
+members = ["ckb-pow", "program", "script"]
+resolver = "2"
+exclude = ["solana"]
+
+[profile.release]
+opt-level = 3

@@ -1,0 +1,26 @@
+{
+ "seq": "0",
+ "amount": "12000000000",
+ "recipient_lock": {
+  "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+  "hash_type": "type",
+  "args": "0xc83eaeaa5fb5d31ea422e08641507397fd2459be"
+ },
+ "recipient_lock_hash": "0x7faa053b1db5bd749297d793e7454d5f78d7c04ac6882eabbb3994381ddec56f",
+ "message": "0x513a3b3f9df0f8cf45589e3fa30a6621d76b7801fd376c0188309c0ce8410d4f",
+ "signatures": [
+  {
+   "index": 1,
+   "pubkey": "0xf6f92d012c753acafd6a747cb402d7bfe2221b9970c81b7df412ffbc315467ef",
+   "signature": "0x45ac290072606aac067382ce757532cd8733bc9667715c63f277a0583f0c0240ccac78b28dd61057070c11c4435fe3f619a0510a2f3e74f708bbc0243c338b0f"
+  }
+ ],
+ "solana": {
+  "program": "2KDCstdNVf3kW6CfvWEmYAk5KLG58z9JeXDhTG3XnbnS",
+  "config": "EwDcSX8QBCjxzQNKVagvzeEtrQDhrWAuwj3eVUXeyeMp",
+  "burn_record": "7uQhFvuEZbbefE14zDzBwYePbHt6KHA3Qvvo13zxkbqr",
+  "slot": "521011284",
+  "burner": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "commitment": "finalized"
+ }
+}

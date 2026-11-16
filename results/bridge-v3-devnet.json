@@ -1,0 +1,193 @@
+{
+  "rpc": "https://api.devnet.solana.com",
+  "program": "2KDCstdNVf3kW6CfvWEmYAk5KLG58z9JeXDhTG3XnbnS",
+  "payer": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "ckb_deposit_tx": "0x73c08fe23f21d9c170d83ec455ef78c34b4cf061980a2b3c99bcf2606e2d661b",
+  "steps": {
+    "tx_create_init_state": {
+      "sig": "3cJ3w31vgTE8whtFooQZZf6gmKeCDWkv4TQ4AA8qwmzZeYnF6giybARyic4LMMG3RYR5w77NCFv9vqVgKNShxAbR",
+      "cu": 1827,
+      "fee_lamports": 10000,
+      "size": 398,
+      "logs": [
+        "Program log: ckb-lc init: anchor #23026474 0x9c6ab28219c4d4f5… pow 1"
+      ]
+    },
+    "tx_create_mint_and_bridge": {
+      "sig": "4pDf5MJYKZLeRB6TEX6RteWjeEEeH69PzZvvrobsLihT2F9hZ7cXUuh6Eq9rvxREDpXN28v3udYqrMP1jaX6gHFy",
+      "cu": 7217,
+      "fee_lamports": 15000,
+      "size": 663,
+      "logs": [
+        "Program log: bridge init: custody lock 0x37202bccf70b8e00… confirmations 12 max age 100000"
+      ]
+    },
+    "tx_create_recipient_ata": {
+      "sig": "5op4pTxPwrpWqrbBN77WfmbuHfh2KScGTxn28UiD3qmcJVdvQqmwQwSta78bh9puZhW6bsu5h7W4obLXYgYwG3iV",
+      "cu": 13417,
+      "fee_lamports": 5000,
+      "size": 304,
+      "logs": [
+        "Program log: CreateIdempotent",
+        "Program log: Initialize the associated token account"
+      ]
+    },
+    "sim_mint_before_segment": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 9
+          }
+        ]
+      },
+      "cu": 101183,
+      "logs": [
+        "Program log: deposit in #23026478 (anchor #23026490 0x0596c79591c9dd24…) rejected: NotAnchored"
+      ]
+    },
+    "sim_mint_tampered_recipient": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 4
+          }
+        ]
+      },
+      "cu": 100059,
+      "logs": [
+        "Program log: groth16 verify failed: PairingFailed"
+      ]
+    },
+    "tx_submit_segment": {
+      "sig": "3Q4FH2GKtzhdhWajbrcqECeqFVTR4XepneGMxvudqqdhGCfStnHGJWSHEAvQUxXpJMZUcd5qEuNNzH8PDFWkCb22",
+      "cu": 98660,
+      "fee_lamports": 5000,
+      "size": 716,
+      "logs": [
+        "Program log: ckb-lc tip -> #23026490 0x0596c79591c9dd24… (+16 headers, Extended, ring 2)"
+      ]
+    },
+    "sim_resubmit_segment_as_fork": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 20
+          }
+        ]
+      },
+      "cu": 98219,
+      "logs": [
+        "Program log: segment #23026475..#23026490 rejected: ForkNotHeavier"
+      ]
+    },
+    "sim_mint_wrong_token_account": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 14
+          }
+        ]
+      },
+      "cu": 99752,
+      "logs": []
+    },
+    "tx_mint_deposit": {
+      "sig": "3ydxwH1vfK9vdmdYnqAZfRJA6pPbzroLxEz1Dj2kirypiMFcTCVbv9XDMzELHhcV8K9iXuQfC47BQ9F7ohKeavDf",
+      "cu": 111726,
+      "fee_lamports": 5000,
+      "size": 1028,
+      "logs": [
+        "Program log: minted 30000000000 (8 dp) for CKB tx 0x73c08fe23f21d9c1…:0 in #23026478 (12 confs) to BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7"
+      ]
+    },
+    "sim_mint_replay": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 15
+          }
+        ]
+      },
+      "cu": 104465,
+      "logs": []
+    },
+    "sim_burn_below_min_cell": {
+      "err": {
+        "InstructionError": [
+          0,
+          {
+            "Custom": 23
+          }
+        ]
+      },
+      "cu": 1735,
+      "logs": []
+    },
+    "sim_burn_bad_hash_type": {
+      "err": {
+        "InstructionError": [
+          0,
+          {
+            "Custom": 22
+          }
+        ]
+      },
+      "cu": 1729,
+      "logs": []
+    },
+    "sim_burn_wrong_seq_pda": {
+      "err": {
+        "InstructionError": [
+          0,
+          {
+            "Custom": 19
+          }
+        ]
+      },
+      "cu": 3319,
+      "logs": []
+    },
+    "tx_burn": {
+      "sig": "2V8FxvcB9H13UFSofRg5ckPSA81sirfHjNJvbkSrCnmPj1Bw3tWkDSvFYiQg3kyy7AdvCgUzhrGwn1NyYzLc5LgU",
+      "cu": 10918,
+      "fee_lamports": 5000,
+      "size": 432,
+      "logs": [
+        "Program log: burn #0: 12000000000 (8 dp) by BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7 -> CKB lock 0x9bd7e06f3ecf4be0… type 1 args 20 B"
+      ]
+    },
+    "final": {
+      "tip_number": "23026490",
+      "tip_hash": "0x0596c79591c9dd24d773ca3084bb9ad416450c236894f28b92a9f1252300cfd2",
+      "pow_id": 1,
+      "ring_len": 2,
+      "recipient_balance": "18000000000",
+      "mint_supply": "18000000000",
+      "decimals": 8,
+      "bridge_total_minted": "30000000000",
+      "bridge_total_burned": "12000000000",
+      "next_burn_seq": "1",
+      "burn": {
+        "seq": "0",
+        "amount": "12000000000",
+        "slot": "521011284",
+        "burner": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+        "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+        "hash_type": 1,
+        "args": "0xc83eaeaa5fb5d31ea422e08641507397fd2459be"
+      }
+    }
+  },
+  "state_account": "CCMRvLdVeQM8WnmmUjXdxPAnrTXPBYwTfoVtR8wHBNJ2",
+  "config_account": "EwDcSX8QBCjxzQNKVagvzeEtrQDhrWAuwj3eVUXeyeMp",
+  "mint": "Gfjfp2xY7rPN7xaMgpfQ1qU9aqQHTMtiPmiW66Tc9yGC",
+  "mint_authority_pda": "HZfRWaY4Acpu4d163pV7TjeYZzBg81dW5edzWgstZCtu",
+  "recipient_token_account": "DCFpi5CRbaQSZjwnwLDcZAwFJG7hC4tN7cdoEX7hzqE2",
+  "nullifier_pda": "CeHWKPFMQ8GJ2qtgFHvxUSnVQ2tDMTz77BoGkEBpKNCc",
+  "burn_record": "7uQhFvuEZbbefE14zDzBwYePbHt6KHA3Qvvo13zxkbqr"
+}

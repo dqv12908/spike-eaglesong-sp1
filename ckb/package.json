@@ -1,0 +1,9 @@
+{
+  "name": "ckb-bridge-deposit",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@ckb-ccc/core": "1.23.0",
+    "@solana/web3.js": "^1.98.4"
+  }
+}

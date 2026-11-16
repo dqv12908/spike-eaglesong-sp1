@@ -1,0 +1,8 @@
+{
+ "network": "sepolia",
+ "contract": "EtherSwap v6 (boltz-core 5.0.0 artifact, unmodified)",
+ "address": "0xDcD88d2fE9d521F5bF6B7B44479F3866c6ceb431",
+ "tx": "0xd8aad062a7dad29e4fc9a4d0e723d860836042b4b6b4ad59bb31a2fcdaeadf91",
+ "block": 12113627,
+ "gas_used": "9704263"
+}

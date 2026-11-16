@@ -1,0 +1,5 @@
+binance spot 2026-11-12T19:42:43.758Z bid 0.00094 ask 0.000942 spread% 0.213 bidDepth0.5%$ 4756 askDepth0.5%$ 7134 bid2%$ 44955 slip sell $1k/$10k/$50k % 0.145/0.473/0.954
+binance perp ERR "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+okx 200 {"code":"51001","msg":"Instrument ID does not exist."}
+bybit 200 {"retCode":10001,"retMsg":"Not supported symbols","result":{},"retExtInfo":{},"time":1794512563699}
+binance 24h quoteVolume 200 219443.83813000

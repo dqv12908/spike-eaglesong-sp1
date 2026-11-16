@@ -1,0 +1,90 @@
+{
+ "direction": "ckb2eth",
+ "network": {
+  "ckb": "testnet (Fiber)",
+  "eth": "sepolia"
+ },
+ "etherswap": "0xDcD88d2fE9d521F5bF6B7B44479F3866c6ceb431",
+ "etherswap_version": 6,
+ "prices": {
+  "ckb_usd": 0.00095334,
+  "eth_usd": 2082.15
+ },
+ "spread_bps": 40,
+ "lp_eth": "0x4761f28fb155d26dE02fE914447ed93FBB97b201",
+ "user_eth": "0x0E3B2B8637a7Fcc053AEb64A0039F61cb997f7B7",
+ "payment_hash": "9421e4db7714a0beab4784e01c8a9c80b07ab2365142319d0bda244fa35c9de8",
+ "ckb_paid": "300",
+ "eth_received": "0.00013680954398098",
+ "eth_timelock_blocks": 15,
+ "fiber_tlc_secs_left_at_lock": 23999,
+ "lock": {
+  "tx": "0x3c3cb69a72c3a3a6c06afec9deb8e9a89611e32eeb39b09bde4feeb53a6fddce",
+  "gas_used": "135617",
+  "gas_price_gwei": "0.000000068",
+  "fee_eth": "0.000000000009221956"
+ },
+ "claim": {
+  "tx": "0xaa30616a03d2ed39e589014d83835389f348420e23add5c8f81f1267618044a1",
+  "gas_used": "35257",
+  "gas_price_gwei": "0.000000068",
+  "fee_eth": "0.000000000002397476"
+ },
+ "user_eth_before": "0.001999999990777228",
+ "elapsed_s": 23.5,
+ "steps": [
+  {
+   "t": 1.2,
+   "who": "user",
+   "what": "secret chosen, H = sha256(secret) = 9421e4db7714a0beab4784e01c8a9c80b07ab2365142319d0bda244fa35c9de8; quote 300 CKB -> 0.00013680954398098 ETH"
+  },
+  {
+   "t": 1.2,
+   "who": "lp",
+   "what": "Fiber hold invoice issued on H"
+  },
+  {
+   "t": 1.2,
+   "who": "user",
+   "what": "paid the invoice: 300 CKB in flight, locked to H"
+  },
+  {
+   "t": 1.6,
+   "who": "lp",
+   "what": "payment held (TLC 300 CKB, expires in 23999s)"
+  },
+  {
+   "t": 12,
+   "who": "lp",
+   "what": "locked 0.00013680954398098 ETH in EtherSwap for the user until block 12113646",
+   "tx": "0x3c3cb69a72c3a3a6c06afec9deb8e9a89611e32eeb39b09bde4feeb53a6fddce",
+   "gas_used": "135617",
+   "gas_price_gwei": "0.000000068",
+   "fee_eth": "0.000000000009221956"
+  },
+  {
+   "t": 12.6,
+   "who": "user",
+   "what": "verified the lock (right hash, amount and recipient; 14 blocks left)"
+  },
+  {
+   "t": 22.9,
+   "who": "relay",
+   "what": "claim submitted for the user; secret is now public on Ethereum",
+   "tx": "0xaa30616a03d2ed39e589014d83835389f348420e23add5c8f81f1267618044a1",
+   "gas_used": "35257",
+   "gas_price_gwei": "0.000000068",
+   "fee_eth": "0.000000000002397476"
+  },
+  {
+   "t": 22.9,
+   "who": "lp",
+   "what": "read the secret from the Claim event and settled the Fiber invoice"
+  },
+  {
+   "t": 23.5,
+   "who": "user",
+   "what": "Fiber payment settled; ETH received 0.00013680954398098 (address held 0.001999999990777228 ETH before)"
+  }
+ ]
+}

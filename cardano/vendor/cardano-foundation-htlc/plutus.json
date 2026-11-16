@@ -1,0 +1,118 @@
+{
+  "preamble": {
+    "title": "cardano-foundation/cardano-template-and-ecosystem-monitoring",
+    "description": "Aiken contracts for project 'cardano-foundation/cardano-template-and-ecosystem-monitoring'",
+    "version": "0.0.0",
+    "plutusVersion": "v3",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.1.22+39d6b04"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "htlc.htlc.spend",
+      "datum": {
+        "title": "_datum",
+        "schema": {
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/htlc~1Htlc"
+        }
+      },
+      "parameters": [
+        {
+          "title": "secret",
+          "schema": {
+            "$ref": "#/definitions/ByteArray"
+          }
+        },
+        {
+          "title": "expiration",
+          "schema": {
+            "$ref": "#/definitions/Int"
+          }
+        },
+        {
+          "title": "owner",
+          "schema": {
+            "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+          }
+        }
+      ],
+      "compiledCode": "59019001010022229800aba2aba1aba0aab9faab9eaab9dab9a9bae0049bad0039bae002488888888896600264653001300b00198059806000cdc3a4005300b0024888966002600460166ea800e2653001301000198081808800cc030dd5002c4c96600266e1d2000300d375400d13371e6e48dd7180898071baa00600b8acc004c8c8c966002600e60206ea80062b30013007301037546028602a00513371001a6eb4c050c044dd5000c4cdc48069bad301430113754002807a294100f180980099808980900099808cc004c014c038dd518091809800d30103d87a8000a60103d8798000403497ae0300e37546022601c6ea8c044006264660020026eb0c048c04c008896600200314a115980099b8f375c602600201714a313300200230140014038808a294100c20183011301130113011301130113011300d375400491112cc004cdc3a40000051323259800980b801400e2c80a0dd7180a80098089baa0098acc004c01c00a2b3001301137540130018b20248b201e403c300c3754007164028300b00130063754017149a26cac80201",
+      "hash": "2ba7e4ffc46b678f3d6219f30d7dca4290e1412d191aa72ccdc3b68a"
+    },
+    {
+      "title": "htlc.htlc.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "parameters": [
+        {
+          "title": "secret",
+          "schema": {
+            "$ref": "#/definitions/ByteArray"
+          }
+        },
+        {
+          "title": "expiration",
+          "schema": {
+            "$ref": "#/definitions/Int"
+          }
+        },
+        {
+          "title": "owner",
+          "schema": {
+            "$ref": "#/definitions/aiken~1crypto~1VerificationKeyHash"
+          }
+        }
+      ],
+      "compiledCode": "59019001010022229800aba2aba1aba0aab9faab9eaab9dab9a9bae0049bad0039bae002488888888896600264653001300b00198059806000cdc3a4005300b0024888966002600460166ea800e2653001301000198081808800cc030dd5002c4c96600266e1d2000300d375400d13371e6e48dd7180898071baa00600b8acc004c8c8c966002600e60206ea80062b30013007301037546028602a00513371001a6eb4c050c044dd5000c4cdc48069bad301430113754002807a294100f180980099808980900099808cc004c014c038dd518091809800d30103d87a8000a60103d8798000403497ae0300e37546022601c6ea8c044006264660020026eb0c048c04c008896600200314a115980099b8f375c602600201714a313300200230140014038808a294100c20183011301130113011301130113011300d375400491112cc004cdc3a40000051323259800980b801400e2c80a0dd7180a80098089baa0098acc004c01c00a2b3001301137540130018b20248b201e403c300c3754007164028300b00130063754017149a26cac80201",
+      "hash": "2ba7e4ffc46b678f3d6219f30d7dca4290e1412d191aa72ccdc3b68a"
+    }
+  ],
+  "definitions": {
+    "ByteArray": {
+      "dataType": "bytes"
+    },
+    "Data": {
+      "title": "Data",
+      "description": "Any Plutus data."
+    },
+    "Int": {
+      "dataType": "integer"
+    },
+    "aiken/crypto/VerificationKeyHash": {
+      "title": "VerificationKeyHash",
+      "dataType": "bytes"
+    },
+    "htlc/Htlc": {
+      "title": "Htlc",
+      "anyOf": [
+        {
+          "title": "GUESS",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "answer",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        },
+        {
+          "title": "WITHDRAW",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        }
+      ]
+    }
+  }
+}

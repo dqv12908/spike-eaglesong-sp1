@@ -1,0 +1,90 @@
+{
+  "rpc": "https://api.devnet.solana.com",
+  "program": "8XjZL4HWtH7otxPjYFEi16MdAa2uWjpJmJuBbysFgPww",
+  "payer": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "fixture": "file:///E:/CKB/spike-eaglesong-sp1/fixtures/proofs/groth16-mainnet-n16.json",
+  "steps": {
+    "sim_tampered_public_values": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 4
+          }
+        ]
+      },
+      "cu": 96304,
+      "logs": [
+        "Program log: groth16 verify failed: PairingFailed"
+      ]
+    },
+    "sim_tampered_proof": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 4
+          }
+        ]
+      },
+      "cu": 96294,
+      "logs": [
+        "Program log: groth16 verify failed: Bn254Syscall"
+      ]
+    },
+    "sim_genuine": {
+      "err": null,
+      "cu": 96762,
+      "logs": [
+        "Program log: verified CKB segment #20975691..#20975706"
+      ]
+    },
+    "tx_verify_only": {
+      "sig": "5nu35RsEPSaAH1Tc45XEbqYwCuDx34aK6dvkGtdXEBrdMmQKednR6pxi1vfL35objMoNM5bDcUsAGcq9ZpBChpBt",
+      "cu": 96762,
+      "fee_lamports": 5000,
+      "logs": [
+        "Program log: verified CKB segment #20975691..#20975706"
+      ]
+    },
+    "tx_create_and_init_state": {
+      "sig": "tsegXEs2gRUyFR3MXuNds91jgAvbrfKstV8KjuwLZzoE4FNMHHKQJbrnizA3VpjKXFxmiKcn1zTiih9LDUYXWNs",
+      "cu": 1627,
+      "fee_lamports": 10000,
+      "logs": [
+        "Program log: ckb-lc init: anchor #20975690 0x6399d044e519be18…"
+      ]
+    },
+    "tx_submit_segment": {
+      "sig": "3E8LzxTDP1MkUScicZQSFdZsnVFukocYkVtPXEtXBDZSv5T2naih73kkT1DsAYCEhKzJ4b9xetmk7bSjcHbqLwjp",
+      "cu": 98130,
+      "fee_lamports": 5000,
+      "logs": [
+        "Program log: ckb-lc tip -> #20975706 0xdde2897b4cd29210… (+16 headers, update 1)"
+      ]
+    },
+    "sim_replay_same_segment": {
+      "err": {
+        "InstructionError": [
+          1,
+          {
+            "Custom": 6
+          }
+        ]
+      },
+      "cu": 97528,
+      "logs": [
+        "Program log: segment #20975691..#20975706 does not extend tip #20975706"
+      ]
+    },
+    "state": {
+      "magic": "CKBLC001",
+      "admin": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+      "tip_number": "20975706",
+      "tip_hash": "0xdde2897b4cd2921054ce8da03979e45f9d4a236c0954d8cb4d34faecb1031e38",
+      "total_difficulty": "0xceeaddfcd8d70fc0",
+      "updates": "1"
+    }
+  },
+  "state_account": "2hFzqFDjB69MDujY9XiqKLGVQefDqERUgnhe3fMoBytb"
+}

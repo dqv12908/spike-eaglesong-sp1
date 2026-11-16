@@ -1,0 +1,79 @@
+{
+ "date": "2026-11-11",
+ "network": "ckb-testnet",
+ "custody": {
+  "code": {
+   "tx_hash": "0x8e96731911d239824c3f2b53cef3bc791fcaf9c58c776aa8145b0808d827a458",
+   "index": 0,
+   "data_hash": "0x03d10158822b68650b67502118397d38f3584d57aed1b727b2157747aafde1f3",
+   "size": 48600,
+   "block": 23026470,
+   "capacity_ckb": "48661",
+   "owner": "WALLET_3"
+  },
+  "vault": {
+   "created_tx": "0xd3fb4d82091755753e709a993041cd46b7b5e172f2aee28b7ff2df5704fb570e",
+   "block": 23026475,
+   "type_script": {
+    "code_hash": "0x00000000000000000000000000000000000000000000000000545950455f4944",
+    "hash_type": "type",
+    "args": "0x169e4ccd4d2eb9a381adfa48cca345f8952e0ed4937862c84be65b38965117b2"
+   },
+   "type_hash": "0xa92c9ce91f2fe8c4f69feea0d8104a57cea6f738baddea3453686bdf72751261",
+   "seed_ckb": "300"
+  },
+  "custody_lock": {
+   "code_hash": "0x03d10158822b68650b67502118397d38f3584d57aed1b727b2157747aafde1f3",
+   "hash_type": "data2",
+   "args": "0xa92c9ce91f2fe8c4f69feea0d8104a57cea6f738baddea3453686bdf72751261cf0b8d964bef2eca7ebe33a8fc73b7539957d51f3b699e3f820457ad438dcf7b0203a3d37940a7e6534b7cfceb8aacfb6e2f68d8812493985d06607a00c40129ef35f6f92d012c753acafd6a747cb402d7bfe2221b9970c81b7df412ffbc315467efad3c7cf4ff4881c97e1c586bfa4c5c3090c4312f7c79b840e2425dfc159bd11d",
+   "lock_hash": "0x37202bccf70b8e002ebc516f4d14d815699979376ca4b92cd06dfdc5fea7fc1c",
+   "m": 2,
+   "n": 3,
+   "attester_pubkeys": [
+    "0xa3d37940a7e6534b7cfceb8aacfb6e2f68d8812493985d06607a00c40129ef35",
+    "0xf6f92d012c753acafd6a747cb402d7bfe2221b9970c81b7df412ffbc315467ef",
+    "0xad3c7cf4ff4881c97e1c586bfa4c5c3090c4312f7c79b840e2425dfc159bd11d"
+   ]
+  },
+  "bridge_id": {
+   "solana_config": "EwDcSX8QBCjxzQNKVagvzeEtrQDhrWAuwj3eVUXeyeMp",
+   "hex": "0xcf0b8d964bef2eca7ebe33a8fc73b7539957d51f3b699e3f820457ad438dcf7b"
+  },
+  "custody_address": "ckt1qqpazq2csg4ksegtvagzzxpe05u0xkzd27hdrde8kg2hw3a2lhslxp9f9jwwj8e0arz0d8lw5rvpqjjhe6n0ww96mh4rg5mgd00hyagjv88shrvkf0hjajn7hce63lrnkafej474ruakn83lsgz90t2r3h8hkqsr50fhjs98uef5kl8uaw92e7mw9a5d3qfyjwv96pnq0gqvgqffau6ld7fdqyk82wk2l448gl95qttmlc3zrwvhpjqm0h6p9laux92x0mad8370fl6gs8yhu8zcd0aychpsjrzrztmu0xuypcjzth7ptx73r5tk08q6"
+ },
+ "transfer_to_deployer": "0xfad32b1d72e0bdfd37cee4f3876b3cc87dd1136a2f5739c0fefd5d4b09d60477",
+ "deposit": {
+  "tx_hash": "0x73c08fe23f21d9c170d83ec455ef78c34b4cf061980a2b3c99bcf2606e2d661b",
+  "out_index": 0,
+  "block_number": 23026478,
+  "capacity_shannons": "30000000000",
+  "deposit_lock_hash": "0x37202bccf70b8e002ebc516f4d14d815699979376ca4b92cd06dfdc5fea7fc1c",
+  "recipient": "BfdybibaFNx1LsSag6T3DCqBYhNSMdVopQ7QKfau6Gm7",
+  "recipient_hex": "0x9e7abfac2f0b40bd03d604e6a3da77c1e2bac535cb97c27f1306d205b8ca3442",
+  "from": "WALLET_1"
+ },
+ "unlock": {
+  "burn_seq": 0,
+  "unlock_tx": "0x44e5ba4a604a5f5c9d3fbcaec1803dd853b084a2b30013960b232e33f39c6bde",
+  "block": 23026681,
+  "amount_shannons": "12000000000",
+  "recipient_lock_hash": "0x7faa053b1db5bd749297d793e7454d5f78d7c04ac6882eabbb3994381ddec56f",
+  "custody_inputs": 2,
+  "vault_out_shannons": "48000000000",
+  "relayer": "WALLET_1"
+ },
+ "unlock_dry_runs_on_testnet_node": {
+  "one_signature_m2": "rejected, custody lock error 10 (NotEnoughSignatures)",
+  "amount_tampered_after_signing": "rejected, error 9 (BadSignature)",
+  "valid_2_of_3": "accepted, 6,049,336 cycles total (custody lock ~4.4M + relayer secp256k1)",
+  "replay_burn0_after_unlock": "rejected, error 8 (WrongSeq)"
+ },
+ "after": {
+  "custody_cells": 1,
+  "custody_ckb": "480",
+  "vault_next_seq": 1,
+  "wallet_1_ckb_before_unlock": "9643.99959477",
+  "wallet_1_ckb_after_unlock": "9763.99958321"
+ },
+ "invariant": "custody 480 CKB = vault seed 300 + outstanding ckbCKB 180 (minted 300 - burned 120)"
+}

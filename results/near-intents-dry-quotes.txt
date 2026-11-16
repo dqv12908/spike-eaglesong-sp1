@@ -1,0 +1,12 @@
+ETH@eth nep141:eth.omft.near dec 18 px 2013.27
+SOL@sol nep141:sol.omft.near dec 9 px 81.58
+ADA@cardano nep141:cardano.omft.near dec 6 px 0.171823
+USDC@eth nep141:eth-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.omft.near dec 6 px 0.999513
+coingecko {"ethereum":{"usd":2012.7},"solana":{"usd":81.57},"cardano":{"usd":0.171821},"nervos-network":{"usd":0.00094556}} 2026-11-12T19:28:11.574Z
+0.5 ETH -> 12.311487463 SOL | mid 12.337256 | below mid 0.209% | minOut 12188372588 | est 42s | usdIn 1006.635000000000 usdOut 1004.371147231540
+10 SOL -> 0.40437643292993636 ETH | mid 0.405276 | below mid 0.222% | minOut 400332668600636988 | est 27s | usdIn 815.800000000000 usdOut 814.118941124853
+0.5 ETH -> 5839.191114 ADA | mid 5856.967425 | below mid 0.304% | minOut 5780799202 | est 62s | usdIn 1006.635000000000 usdOut 1003.307334780822
+3000 ADA -> 0.2548764316006912 ETH | mid 0.256105 | below mid 0.480% | minOut 252327667284684301 | est 34s | usdIn 515.469000000000 usdOut 513.135073448724
+10 SOL -> 4725.20623 ADA | mid 4747.382450 | below mid 0.467% | minOut 4677954167 | est 37s | usdIn 815.800000000000 usdOut 811.899110057290
+3000 ADA -> 6.281184282 SOL | mid 6.319272 | below mid 0.603% | minOut 6218372439 | est 24s | usdIn 515.469000000000 usdOut 512.419013725560
+0.05 ETH -> 1.230897464 SOL | mid 1.233726 | below mid 0.229% | minOut 1218588489 | est 42s | usdIn 100.663500000000 usdOut 100.416615113120

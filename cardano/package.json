@@ -1,0 +1,21 @@
+{
+  "name": "ckb-cardano-htlc-costs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Measures what a SHA-256 hash-locked swap leg costs on Cardano (emulator with mainnet protocol parameters, or preprod)",
+  "scripts": {
+    "measure": "node measure.mjs --network emulator",
+    "preprod": "node measure.mjs --network preprod",
+    "plainkey": "node plainkey.mjs --network emulator",
+    "wallet": "node wallet.mjs"
+  },
+  "dependencies": {
+    "@lucid-evolution/lucid": "0.8.9",
+    "@noble/curves": "1.9.7",
+    "@noble/hashes": "1.8.0"
+  },
+  "devDependencies": {
+    "@aiken-lang/aiken": "1.1.19"
+  }
+}

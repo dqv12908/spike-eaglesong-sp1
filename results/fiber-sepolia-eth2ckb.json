@@ -1,0 +1,80 @@
+{
+ "direction": "eth2ckb",
+ "network": {
+  "ckb": "testnet (Fiber)",
+  "eth": "sepolia"
+ },
+ "etherswap": "0xDcD88d2fE9d521F5bF6B7B44479F3866c6ceb431",
+ "etherswap_version": 6,
+ "prices": {
+  "ckb_usd": 0.00095334,
+  "eth_usd": 2082.15
+ },
+ "spread_bps": 40,
+ "lp_eth": "0x4761f28fb155d26dE02fE914447ed93FBB97b201",
+ "user_eth": "0x0E3B2B8637a7Fcc053AEb64A0039F61cb997f7B7",
+ "payment_hash": "2e08d57420018d0fd6c64c9cece53b0d70368490acc9f3f1338fbe308e07f9e5",
+ "eth_paid": "0.0002",
+ "ckb_received": "435.06438415",
+ "eth_timelock_blocks": 2125,
+ "lock": {
+  "tx": "0xeb944d9c936a31769ef9d90d569cb01f14aa7ca6166f3a4b66adaf7cff5a3055",
+  "gas_used": "135629",
+  "gas_price_gwei": "0.000000068",
+  "fee_eth": "0.000000000009222772"
+ },
+ "claim": {
+  "tx": "0xf0f2703e2d713f9be18da0aca47b840bc98dbdec9feca7280d20b7326132eb06",
+  "gas_used": "32580",
+  "gas_price_gwei": "0.000000068",
+  "fee_eth": "0.00000000000221544"
+ },
+ "fiber_fee": "0x0",
+ "elapsed_s": 48,
+ "steps": [
+  {
+   "t": 22.3,
+   "who": "setup",
+   "what": "test faucet: sent the user 0.0022 Sepolia ETH so it has something to swap",
+   "tx": "0x899b2d77d116559052df67aac2a2a0d1d1369f386562077bb24ef2e1969485ea"
+  },
+  {
+   "t": 22.3,
+   "who": "user",
+   "what": "Fiber invoice for 435.06438415 CKB, payment hash H = 2e08d57420018d0fd6c64c9cece53b0d70368490acc9f3f1338fbe308e07f9e5 (the node keeps the secret)"
+  },
+  {
+   "t": 36.8,
+   "who": "user",
+   "what": "locked 0.0002 ETH in EtherSwap for the LP until block 12115753 (about 7.1 h)",
+   "tx": "0xeb944d9c936a31769ef9d90d569cb01f14aa7ca6166f3a4b66adaf7cff5a3055",
+   "gas_used": "135629",
+   "gas_price_gwei": "0.000000068",
+   "fee_eth": "0.000000000009222772"
+  },
+  {
+   "t": 37.3,
+   "who": "lp",
+   "what": "verified the lock (25488s left, longer than the 24000s Fiber TLC cap plus margin)"
+  },
+  {
+   "t": 37.4,
+   "who": "lp",
+   "what": "paying 435.06438415 CKB over Fiber"
+  },
+  {
+   "t": 37.8,
+   "who": "lp",
+   "what": "Fiber payment settled; the user's node released the secret"
+  },
+  {
+   "t": 48,
+   "who": "lp",
+   "what": "claimed 0.0002 ETH with the secret",
+   "tx": "0xf0f2703e2d713f9be18da0aca47b840bc98dbdec9feca7280d20b7326132eb06",
+   "gas_used": "32580",
+   "gas_price_gwei": "0.000000068",
+   "fee_eth": "0.00000000000221544"
+  }
+ ]
+}
